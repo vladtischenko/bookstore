@@ -1,6 +1,6 @@
 %h3
   New review for
-  / = link_to @book.title, book_path(@book)
+  = link_to @book.title, book_path(@book)
 
 = form_for @rating do |f|
   -if @rating.errors.any?
@@ -24,7 +24,8 @@
   = f.text_area :text
   %br
   = f.hidden_field :allow, value: false
+  = f.hidden_field :book_id, value: @book.id
   %br
   = f.submit 'add'
   or
-  / = link_to 'cancel', book_path(@book)
+  = link_to 'cancel', book_path(@book)

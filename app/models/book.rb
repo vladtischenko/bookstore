@@ -1,10 +1,10 @@
 class Book < ActiveRecord::Base
   has_many :ratings
-  has_one :category
+  belongs_to :category
   belongs_to :author
   validates :title, :short_description, :description, :price, presence: true
   validates :price, numericality: true
-  validates :in_stock, inclusion: {in: ['in_progress', 'in_queue', 'in_delivery', 'delivered']}
+  # validates :in_stock, inclusion: {in: ['in_progress', 'in_queue', 'in_delivery', 'delivered']}
 
   paginates_per 9
 
@@ -15,5 +15,6 @@ class Book < ActiveRecord::Base
     books = all.sort!{|x,y| x.create_at <=> y.create_at}
     result = []
     books[0..4].each{ |book| result << book }
+    result.shuffle
   end
 end

@@ -24,9 +24,11 @@
                     $
                     = book.price
                   %td
-                    %input#number.quantity{value: '1', type: 'number', required: true, min: 1}
-                  %td
-                    = link_to 'add to card' 
+                    = form_for oi = OrderItem.new do |f|
+                      = f.number_field :quantity, min: 1, max: 10
+                      = f.hidden_field :book_id, value: book.id
+                      = f.hidden_field :price, value: book.price
+                      = f.submit 'add to cart'
               %br
               %br
 

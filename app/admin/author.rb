@@ -14,6 +14,6 @@ ActiveAdmin.register Author do
   #  permitted
   # end
   
-permit_params :firstname, :lastname
+  permit_params :firstname, :lastname
 
 end

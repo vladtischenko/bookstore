@@ -1,0 +1,99 @@
+%h3 Orders
+
+%div
+  - if @order_in_progress.order_items.empty?
+    %h4 
+      Your shopping cart is empty!!!
+  - else
+    %h4 
+      IN PROGRESS
+    %table
+      %tr
+        %th BOOK
+        %th PRICE
+        %th QTY
+        %th TOTAL
+
+      - @order_in_progress.order_items.each do |order_item|
+        %tr
+          %td
+            %table
+              %tr
+                %td= order_item.book.picture
+                %td
+                  %table
+                    %tr
+                      %td= order_item.book.title
+                    %tr
+                      %td= order_item.book.short_description
+          %td
+            $
+            = order_item.book.price
+          %td= order_item.quantity
+          %td
+            $
+            = order_item.total
+
+      %tr
+        %td{colspan: 3}
+          &nbsp;
+        %td
+          SUBTOTAL: $ 
+          = @order_in_progress.subtotal.round(2)
+      %tr
+        %td= link_to 'go to cart', user_orders_cart_path(user_id: current_user)
+%br
+
+%div
+  - unless @orders_waiting.empty?
+    %h4
+      WAITING FOR PROGRESS
+    %table
+      %tr
+        %th NUMBER
+        %th COMPLETED AT
+        %th TOTAL
+
+      - @orders_waiting.each do |order|
+        %tr
+          %td= link_to order.number
+          %td= order.completed_at
+          %td= order.subtotal
+          %td= link_to 'view'
+%br
+
+%div
+  - unless @orders_in_delivery.empty?
+    %h4
+      IN DELIVERY
+    %table
+      %tr
+        %th NUMBER
+        %th COMPLETED AT
+        %th TOTAL
+
+      - @orders_in_delivery.each do |order|
+        %tr
+          %td= link_to order.number
+          %td= order.completed_at
+          %td= order.subtotal
+          %td= link_to 'view'
+%br
+
+%div
+  - unless @orders_delivered.empty?
+    %h4
+      DELIVERED
+    %table
+      %tr
+        %th NUMBER
+        %th COMPLETED AT
+        %th TOTAL
+
+      - @orders_delivered.each do |order|
+        %tr
+          %td= link_to order.number
+          %td= order.completed_at
+          %td= order.subtotal
+          %td= link_to 'view'
+%br

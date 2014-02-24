@@ -6,7 +6,9 @@ class User < ActiveRecord::Base
 
   validates :firstname, :lastname, presence: true
 
-  # has_many :orders
+  has_many :orders
+  has_one :bill_address
+  has_one :ship_address
 
   def to_s
     self.firstname + " " + self.lastname if firstname and lastname

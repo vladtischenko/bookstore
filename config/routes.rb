@@ -1,5 +1,6 @@
 Bookstore::Application.routes.draw do
-  devise_for :users
+  # devise_for :users
+  devise_for :users, :controllers => {:registrations => "registrations"}
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root :to => redirect('/home')
@@ -8,10 +9,18 @@ Bookstore::Application.routes.draw do
   end
   resources :ratings
   resources :authors
+  resources :users, only: [:show]
   resources :categories, only: [:index, :show]
+  resources :bill_addresses
+  resources :ship_addresses
+  resources :orders
+  resources :order_items
 
   get '/home', to: 'books#news'
+  get '/users/:user_id/orders', to: 'orders#index', as: :user_orders
+  get '/users/:user_id/orders/cart', to: 'orders#cart', as: :user_orders_cart
   get '/categories/:category_id/books', to: 'books#get_by_category', as: :category_books
+  get '/users/:user_id/orders/cart/empty', to: 'orders#empty', as: :empty_cart
 
   # get '/books/:id/details', to: 'books#details', as: :book_details
   # get 'books/:id/add_rating/:rating_id', to: 'books#add_rating', as: :book_add_rating

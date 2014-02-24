@@ -10,9 +10,11 @@
       $
       = @book.price
     %td
-      %input#number.quantity{value: '1', type: 'number', required: true, min: 1}
-    %td
-      = link_to 'add to card'
+      = form_for oi = OrderItem.new do |f|
+        = f.number_field :quantity, min: 1, max: 10
+        = f.hidden_field :book_id, value: @book.id
+        = f.hidden_field :price, value: @book.price
+        = f.submit 'add to cart'
   %tr
     %td
       %div
@@ -22,6 +24,8 @@
   Reviews
 %div 
   = link_to 'add review for this book', new_book_rating_path(@book)
+
+%br
 
 - @book.ratings.each do |rating|
   - if rating.allow
@@ -35,3 +39,7 @@
       = rating.user
     %div
       = rating.text
+  - else 
+    review is not verify by admin yet
+  %br
+  %br

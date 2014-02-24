@@ -7,20 +7,17 @@ class RatingsController < ApplicationController
 
   def create
     @rating = Rating.new(rating_params)
+    @rating.user = current_user
+    @rating.save
+    @book = Book.find(params[:rating][:book_id])
+    @book.ratings << @rating
+    @book.save
 
-    respond_to do |format|
-      if @rating.save
-        format.html { redirect_to @rating, notice: 'Rating was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @rating }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @rating.errors, status: :unprocessable_entity }
-      end
-    end
+    redirect_to book_path(@book)
   end
 
   private
     def rating_params
-      params.require(:rating).permit(:text, :title, :rate)
+      params.require(:rating).permit(:text, :title, :rate, :allow)
     end
 end

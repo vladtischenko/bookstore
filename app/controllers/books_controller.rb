@@ -1,5 +1,6 @@
 class BooksController < ApplicationController
   def index
+    init_in_progress_order
     @books = Book.all.page(params[:page]).per(9)
     @categories = Category.all
     [@books, @categories]
@@ -19,6 +20,7 @@ class BooksController < ApplicationController
   end
 
   def news
+    init_in_progress_order
     @books = Book.news_five.page(params[:page]).per(1)
     render 'news'
   end
@@ -27,5 +29,14 @@ class BooksController < ApplicationController
     def book_params
       params.require(:book).permit(:title, :short_description, :description,
         :picture, :price, :in_stock)
+    end
+
+    def init_in_progress_order
+      unless current_user.orders.where("user_id = ? AND state = ?",
+            current_user, 'in_progress').first
+        current_user.orders << Order.create(state: 'in_progress',
+                          number: "#{Time.now.to_i}", subtotal: 0)
+        current_user.save  
+      end  
     end
 end
