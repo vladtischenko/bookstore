@@ -1,5 +1,9 @@
 class OrdersController < ApplicationController
   
+  def show
+    @order = Order.find(params[:id])
+  end
+
   def index
     @order_in_progress = Order.where("user_id = ? AND state = ?",
                     current_user, 'in_progress').first
@@ -14,7 +18,7 @@ class OrdersController < ApplicationController
   def cart
     @order = Order.where("user_id = ? AND state = ?",
                     current_user, 'in_progress').first
-    @order.set_subtotal
+    @order.set_total
     @order.save
   end
 

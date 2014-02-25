@@ -15,6 +15,8 @@ gem 'devise' # for accunts
 
 gem 'carrierwave' # image uploader
 
+gem "mini_magick" # format image
+
 gem 'activeadmin', github: 'gregbell/active_admin' # admin panel
 
 gem 'twitter-bootstrap-rails'

@@ -1,4 +1,8 @@
+require 'carrierwave/orm/activerecord'
+
 class Book < ActiveRecord::Base
+  mount_uploader :picture, PictureUploader
+
   has_many :ratings
   belongs_to :category
   belongs_to :author
@@ -9,10 +13,10 @@ class Book < ActiveRecord::Base
   paginates_per 9
 
   def self.news_five
+    books = all.sort!{|x,y| x.created_at <=> y.created_at}.reverse
     if count < 5
-      return all
+      return books.to_a(self).shuffle
     end
-    books = all.sort!{|x,y| x.create_at <=> y.create_at}
     result = []
     books[0..4].each{ |book| result << book }
     result.shuffle

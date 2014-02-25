@@ -14,6 +14,6 @@ ActiveAdmin.register Order do
   #  permitted
   # end
   
-  permit_params :subtotal, :state, :number, :completed_at, :user_id
+  permit_params :subtotal, :state, :number, :completed_at, :user_id, :shipping, :order_total
 
 end

@@ -3,7 +3,7 @@
 %div
   = @book.title
 %div{style: "float: left"}
-  = @book.picture
+  = image_tag(@book.picture_url, :width => 100) if @book.picture.present?
 %table
   %tr
     %td

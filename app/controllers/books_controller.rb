@@ -21,7 +21,7 @@ class BooksController < ApplicationController
 
   def news
     init_in_progress_order
-    @books = Book.news_five.page(params[:page]).per(1)
+    @books = Kaminari.paginate_array(Book.news_five).page(params[:page]).per(1)
     render 'news'
   end
 
@@ -35,7 +35,7 @@ class BooksController < ApplicationController
       unless current_user.orders.where("user_id = ? AND state = ?",
             current_user, 'in_progress').first
         current_user.orders << Order.create(state: 'in_progress',
-                          number: "#{Time.now.to_i}", subtotal: 0)
+          number: "R#{Time.now.to_i}", subtotal: 0, order_total: 0, shipping: 0)
         current_user.save  
       end  
     end

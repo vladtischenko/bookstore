@@ -15,7 +15,8 @@
           %td
             %table
               %tr
-                %td= order_item.book.picture
+                %td
+                  = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
                 %td
                   %table
                     %tr

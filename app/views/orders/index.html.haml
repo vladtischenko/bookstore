@@ -19,7 +19,8 @@
           %td
             %table
               %tr
-                %td= order_item.book.picture
+                %td
+                  = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
                 %td
                   %table
                     %tr
@@ -56,10 +57,10 @@
 
       - @orders_waiting.each do |order|
         %tr
-          %td= link_to order.number
+          %td= link_to order.number, order_path(order)
           %td= order.completed_at
           %td= order.subtotal
-          %td= link_to 'view'
+          %td= link_to 'view', order_path(order)
 %br
 
 %div
@@ -74,10 +75,10 @@
 
       - @orders_in_delivery.each do |order|
         %tr
-          %td= link_to order.number
+          %td= link_to order.number, order_path(order)
           %td= order.completed_at
           %td= order.subtotal
-          %td= link_to 'view'
+          %td= link_to 'view', order_path(order)
 %br
 
 %div
@@ -92,8 +93,8 @@
 
       - @orders_delivered.each do |order|
         %tr
-          %td= link_to order.number
+          %td= link_to order.number, order_path(order)
           %td= order.completed_at
           %td= order.subtotal
-          %td= link_to 'view'
+          %td= link_to 'view', order_path(order)
 %br
