@@ -1,0 +1,56 @@
+= render 'head'
+
+%div.checkout_adrs{style: "float: left"}
+  %h4 CREDIT CARD
+  = form_for CreditCard.new do |f|
+    -if current_user.credit_card
+      %p
+        = f.text_field :card_number, value: current_user.credit_card.card_number
+        %br
+      %p
+        = f.label 'Expiration date:'
+        %br
+      %p
+        = f.select :expiration_month, options_for_select(@months), selected: current_user.credit_card.expiration_month
+        = f.select :expiration_year, options_for_select(@years), selected: current_user.credit_card.expiration_year
+        %br
+      %p
+        = f.text_field :code, placeholder: 'Card Code'
+        = link_to "(What's this)", 'http://en.wikipedia.org/wiki/Card_security_code'
+        = f.hidden_field :user_id, value: current_user.id
+        %br
+    -else
+      %p
+        = f.text_field :card_number, placeholder: 'Card Number'
+        %br
+      %p
+        = f.label 'Expiration date:'
+        %br
+      %p
+        = f.select :expiration_month, options_for_select(@months, 'Month')
+        = f.select :expiration_year, options_for_select(@years, 'Year')
+        %br
+      %p
+        = f.text_field :code, placeholder: 'Card Code'
+        = link_to "(What's this)", 'http://en.wikipedia.org/wiki/Card_security_code'
+        = f.hidden_field :user_id, value: current_user.id
+        %br
+    %p  
+      = f.submit 'SAVE AND CONTINUE'
+  
+%div
+  %h4 ORDER SUMMARY
+  %table
+    %tr
+      %td
+        ITEM TOTAL: $
+        = current_user.current_order.subtotal.round(2)
+    %tr
+      %td
+        SHIPPING: $
+        %span#shipping_value
+          = current_user.current_order.shipping.round(2)
+    %tr
+      %td
+        ORDER TOTAL: $
+        = current_user.current_order.order_total.round(2)

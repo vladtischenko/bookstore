@@ -1,0 +1,56 @@
+%div
+  = link_to '<< Back to orders', orders_path
+  %br
+  %h3
+    Order
+    = @order.number
+    %span{style: "color: grey"}
+      = @order.state
+%br
+
+%table
+  %tr
+    %th BOOK
+    %th PRICE
+    %th QTY
+    %th TOTAL
+
+  - @order.order_items.each do |order_item|
+    %tr
+      %td
+        %table
+          %tr
+            %td
+              = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
+            %td
+              %table
+                %tr
+                  %td= order_item.book.title
+                %tr
+                  %td= order_item.book.short_description
+      %td
+        $
+        = order_item.book.price
+      %td= order_item.quantity
+      %td
+        $
+        = order_item.total
+%br
+
+%div
+  %table
+    %tr
+      %td{colspan: 3}
+        SUBTOTAL: $
+        %b
+          = @order.subtotal
+    %tr
+      %td{colspan: 3}
+        SHIPPING: $
+        %b
+          = @order.shipping
+    %tr
+      %td{colspan: 3}
+        ORDER TOTAL: $
+        %b
+          = @order.order_total

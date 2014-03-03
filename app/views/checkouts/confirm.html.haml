@@ -1,0 +1,112 @@
+= render 'head'
+
+%h4 CONFIRM
+%table
+  %tr
+    %th
+      Shipping address
+      = link_to 'edit', checkout_address_path
+      |
+    %th
+      Billing address
+      = link_to 'edit', checkout_address_path
+      |
+    %th
+      Shipments
+      = link_to 'edit', checkout_delivery_path
+      |
+    %th
+      Payment information
+      = link_to 'edit', checkout_payment_path
+
+  %tr
+    %td
+      = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}"
+      %br
+      = current_user.ship_address.street
+      %br
+      = current_user.ship_address.city
+      = current_user.ship_address.zipcode
+      %br
+      = current_user.ship_address.country.name
+      %br
+      Phone
+      = current_user.ship_address.phone
+
+    %td
+      = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
+      %br
+      = current_user.bill_address.street
+      %br
+      = current_user.bill_address.city
+      = current_user.bill_address.zipcode
+      %br
+      = current_user.bill_address.country.name
+      %br
+      Phone
+      = current_user.bill_address.phone
+
+    %td
+      = @shipment
+
+    %td
+      -if current_user.credit_card
+        = current_user.credit_card.card_number
+        %br
+        = current_user.credit_card.expiration_month
+        = current_user.credit_card.expiration_year
+      -else
+        Fill your credit card information!!!
+%br
+%br
+%table
+  %tr
+    %th BOOK
+    %th PRICE
+    %th QTY
+    %th TOTAL
+
+  - current_user.current_order.order_items.each do |order_item|
+    %tr
+      %td
+        %table
+          %tr
+            %td
+              = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
+            %td
+              %table
+                %tr
+                  %td= order_item.book.title
+                %tr
+                  %td= order_item.book.short_description
+      %td
+        $
+        = order_item.book.price
+      %td= order_item.quantity
+      %td
+        $
+        = order_item.total
+%br
+
+%div
+  %table
+    %tr
+      %td{colspan: 3}
+        SUBTOTAL: $
+        %b
+          = current_user.current_order.subtotal.round(2)
+    %tr
+      %td{colspan: 3}
+        SHIPPING: $
+        %b
+          = current_user.current_order.shipping.round(2)
+    %tr
+      %td{colspan: 3}
+        ORDER TOTAL: $
+        %b
+          = current_user.current_order.order_total.round(2)
+%br
+%br
+
+= link_to checkout_set_complete_path do 
+  %button PLACE ORDER

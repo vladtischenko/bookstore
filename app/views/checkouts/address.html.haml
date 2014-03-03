@@ -1,0 +1,118 @@
+= render 'head'
+
+= form_tag checkout_set_addresses_path do
+  %div.checkout_adrs{style: "float: left"}
+    %h4 BILLING ADDRESS
+    - if current_user.bill_address
+      %p
+        = text_field_tag :b_firstname, current_user.bill_address.firstname
+        %br
+      %p
+        = text_field_tag :b_lastname, current_user.bill_address.lastname
+        %br
+      %p
+        = text_field_tag :b_street, current_user.bill_address.street
+        %br
+      %p
+        = text_field_tag :b_city, current_user.bill_address.city
+        %br
+      %p
+        = collection_select :b_country_id, :country_id, Country.all, :id, :name
+        %br
+      %p
+        = text_field_tag :b_zipcode, current_user.bill_address.zipcode
+        %br
+      %p
+        = text_field_tag :b_phone, current_user.bill_address.phone
+        %br
+        %br
+
+    - else
+      %p
+        = text_field_tag :b_firstname, nil,  placeholder: 'firstname'
+        %br
+      %p
+        = text_field_tag :b_lastname, nil, placeholder: 'lastname'
+        %br
+      %p
+        = text_field_tag :b_street, nil, placeholder: 'street'
+        %br
+      %p
+        = text_field_tag :b_city, nil, placeholder: 'city'
+        %br
+      %p
+        = collection_select :b_country_id, :country_id, Country.all, :id, :name
+        %br
+      %p
+        = text_field_tag :b_zipcode, nil, placeholder: 'zipcode'
+        %br
+      %p
+        = text_field_tag :b_phone, nil, placeholder: 'phone'
+        %br
+        %br
+    = submit_tag 'SAVE AND CONTINUE'
+
+  %div.checkout_adrs{style: "float: left"}
+    %h4 SHIPPING ADDRESS     
+    = check_box_tag 'ship_as_bill'
+    Use Bill Address
+    %div#ship_block
+      - if current_user.ship_address
+        %p
+          = text_field_tag :s_firstname, current_user.ship_address.firstname
+          %br
+        %p
+          = text_field_tag :s_lastname, current_user.ship_address.lastname
+          %br
+        %p
+          = text_field_tag :s_street, current_user.ship_address.street
+          %br
+        %p
+          = text_field_tag :s_city, current_user.ship_address.city
+          %br
+        %p
+          = collection_select :s_country_id, :country_id, Country.all, :id, :name
+          %br
+        %p
+          = text_field_tag :s_zipcode, current_user.ship_address.zipcode
+          %br
+        %p
+          = text_field_tag :s_phone, current_user.ship_address.phone
+          %br
+          %br
+
+      - else
+        %p
+          = text_field_tag :s_firstname, nil, placeholder: 'firstname'
+          %br
+        %p
+          = text_field_tag :s_lastname, nil, placeholder: 'lastname'
+          %br
+        %p
+          = text_field_tag :s_street, nil, placeholder: 'street'
+          %br
+        %p
+          = text_field_tag :s_city, nil, placeholder: 'city'
+          %br
+        %p
+          = collection_select :s_country_id, :country_id, Country.all, :id, :name
+          %br
+        %p
+          = text_field_tag :s_zipcode, nil, placeholder: 'zipcode'
+          %br
+        %p
+          = text_field_tag :s_phone, nil, placeholder: 'phone'
+          %br
+          %br
+
+%div
+  %h4 ORDER SUMMARY
+  %table
+    %tr
+      %td
+        ITEM TOTAL: $
+        = current_user.current_order.subtotal.round(2)
+    %tr
+      %td
+        ORDER TOTAL: $
+        = current_user.current_order.order_total.round(2)

@@ -1,0 +1,47 @@
+= form_for @ship_address do |f|
+  - if current_user.ship_address
+    %p
+      = f.text_field :firstname, value: @ship_address.firstname
+      %br
+    %p
+      = f.text_field :lastname, value: @ship_address.lastname
+      %br
+    %p
+      = f.text_field :street, value: @ship_address.street
+      %br
+    %p
+      = f.text_field :city, value: @ship_address.city
+      %br
+    %p
+      -#= f.collection_select :country_id, @countries, :id, :name
+      = f.collection_select :country_id, Country.all, :id, :name
+    %p 
+      = f.text_field :zipcode, value: @ship_address.zipcode
+      %br
+    %p
+      = f.text_field :phone, value: @ship_address.phone
+      %br
+    %p
+  - else
+    %p
+      = f.text_field :firstname, placeholder: 'firstname'
+      %br
+    %p
+      = f.text_field :lastname, placeholder: 'lastname'
+      %br
+    %p
+      = f.text_field :street, placeholder: 'street'
+      %br
+    %p
+      = f.text_field :city, placeholder: 'city'
+      %br
+    %p
+      = select_tag(:country_id, options_from_collection_for_select(Country.all, 'id', 'name'))
+    %p 
+      = f.text_field :zipcode, placeholder: 'zipcode'
+      %br
+    %p
+      = f.text_field :phone, placeholder: 'phone'
+      %br
+    %p
+  = f.submit 'SAVE', method: :patch
