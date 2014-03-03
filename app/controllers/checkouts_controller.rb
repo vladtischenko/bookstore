@@ -12,7 +12,7 @@ class CheckoutsController < ApplicationController
     elsif shipping ==15
       @shipment = 'UPS one day'
     else
-      redirect_to checkout_payment_path, notice: 'Ann error has occured!!!'
+      redirect_to checkout_payment_path, notice: 'Ann error has occured!!!'# do notice with I18n
     end
   end
 

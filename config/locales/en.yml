@@ -26,6 +26,7 @@ en:
     created: "%{obj} was successfully created"
     updated: "%{obj} was successfully updated"
     destroyed: "%{obj} was successfully destroyed"
+    confirm: ""
 
   fail:
     created: "%{obj} wasn't created"
