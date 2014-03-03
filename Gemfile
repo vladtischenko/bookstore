@@ -13,6 +13,8 @@ gem 'kaminari-i18n'
 
 gem 'haml-rails'
 
+gem 'cancan'
+
 gem 'devise' # for accunts
 
 gem 'carrierwave' # image uploader

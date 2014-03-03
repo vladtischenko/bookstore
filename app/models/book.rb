@@ -12,15 +12,13 @@ class Book < ActiveRecord::Base
 
   paginates_per 9
 
-  scope :category, -> (id) { where(category_id: id) }
+  scope :category, -> (category) { where(category_id: category.id) }
 
   def self.news_five
-    books = all.sort!{|x,y| x.created_at <=> y.created_at}.reverse
     if count < 5
-      return books.to_a(self).shuffle
+      all.shuffle
+    else
+      find_by_sql("SELECT * FROM books ORDER BY created_at DESC LIMIT 5").shuffle
     end
-    result = []
-    books[0..4].each{ |book| result << book }
-    result.shuffle
   end
 end

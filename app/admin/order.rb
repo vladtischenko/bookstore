@@ -13,7 +13,13 @@ ActiveAdmin.register Order do
   #  permitted << :other if resource.something?
   #  permitted
   # end
-  
+
   permit_params :subtotal, :state, :number, :completed_at, :user_id, :shipping, :order_total
+
+  # table_for order.order_items do
+    # column "Order items" do |item|
+      # link_to item.book.name, [ :admin, :order_item ]
+    # end
+  # end
 
 end

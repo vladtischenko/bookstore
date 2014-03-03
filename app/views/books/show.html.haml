@@ -11,8 +11,10 @@
       = @book.price
     %td
       = form_for oi = OrderItem.new do |f|
-        = f.number_field :quantity, min: 1, max: 10
+        = f.number_field :quantity, min: 1, max: 10, value: 1
         = f.hidden_field :book_id, value: @book.id
+        -if current_user
+          = f.hidden_field :order_id, value: current_user.current_order
         = f.hidden_field :price, value: @book.price
         = f.submit 'add to cart'
   %tr
@@ -33,7 +35,7 @@
       %tr
         %td= rating.rate
         %td= rating.title
-        %td= rating.created_at
+        %td= rating.created_at.asctime
     %div
       by
       = rating.user

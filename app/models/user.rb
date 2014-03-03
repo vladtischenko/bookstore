@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :orders, dependent: :destroy
   has_one :bill_address
   has_one :ship_address
+  has_one :credit_card
+
+  after_create :current_order
 
   def to_s
     self.firstname + " " + self.lastname if firstname and lastname
@@ -26,4 +29,5 @@ class User < ActiveRecord::Base
     order.set_total
     order
   end
+
 end

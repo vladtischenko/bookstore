@@ -1,14 +1,15 @@
 class OrdersController < ApplicationController
   
   def show
-    @order = Order.find(params[:id])
+    @order = Order.by_user(current_user).find params[:id]
   end
 
   def index
     @order_in_progress = current_user.current_order
-    @orders_waiting = Order.waiting current_user
-    @orders_in_delivery = Order.in_delivery current_user
-    @orders_delivered = Order.delivered current_user
+    orders = Order.by_user current_user
+    @orders_waiting = orders.waiting
+    @orders_in_delivery = orders.in_delivery
+    @orders_delivered = orders.delivered
   end
 
   def cart
@@ -17,6 +18,6 @@ class OrdersController < ApplicationController
 
   def empty
     current_user.current_order.empty_cart
-    redirect_to root
+    redirect_to root_path
   end
 end

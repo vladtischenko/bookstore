@@ -1,9 +1,11 @@
 class ShipAddressesController < ApplicationController
+  # load_and_authorize_resource
+
   def create
     @ship_address = ShipAddress.new(ship_address_params)
+    @ship_address.user = current_user
 
     if @ship_address.save
-      current_user.ship_address = @ship_address
       current_user.save
 
       redirect_to edit_user_registration_path,

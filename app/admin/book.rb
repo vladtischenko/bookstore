@@ -13,7 +13,7 @@ ActiveAdmin.register Book do
   #  permitted << :other if resource.something?
   #  permitted
   # end
-  
+
   permit_params :title, :short_description, :description, :price,
     :in_stock, :picture, :author_id, :category_id
 

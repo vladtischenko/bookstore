@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140224152331) do
+ActiveRecord::Schema.define(version: 20140301020553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,29 +93,6 @@ ActiveRecord::Schema.define(version: 20140224152331) do
   add_index "books", ["category_id"], name: "index_books_on_category_id", using: :btree
   add_index "books", ["rating_id"], name: "index_books_on_rating_id", using: :btree
 
-  create_table "cart_items", force: true do |t|
-    t.string   "cartable_type", null: false
-    t.integer  "cartable_id",   null: false
-    t.integer  "cart_id",       null: false
-    t.integer  "quantity"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "cart_items", ["cart_id"], name: "index_cart_items_on_cart_id", using: :btree
-  add_index "cart_items", ["cartable_id", "cartable_type"], name: "index_cart_items_on_cartable_id_and_cartable_type", using: :btree
-
-  create_table "carts", force: true do |t|
-    t.string   "shopper_type"
-    t.integer  "shopper_id"
-    t.string   "state"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "carts", ["shopper_id", "shopper_type"], name: "index_carts_on_shopper_id_and_shopper_type", using: :btree
-  add_index "carts", ["state"], name: "index_carts_on_state", using: :btree
-
   create_table "categories", force: true do |t|
     t.string   "title"
     t.datetime "created_at"
@@ -130,6 +107,18 @@ ActiveRecord::Schema.define(version: 20140224152331) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "credit_cards", force: true do |t|
+    t.string   "expiration_month"
+    t.integer  "expiration_year"
+    t.integer  "code"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.decimal  "card_number"
+  end
+
+  add_index "credit_cards", ["user_id"], name: "index_credit_cards_on_user_id", using: :btree
 
   create_table "order_items", force: true do |t|
     t.float    "price"
@@ -207,9 +196,11 @@ ActiveRecord::Schema.define(version: 20140224152331) do
     t.string   "lastname"
     t.integer  "bill_address_id"
     t.integer  "ship_address_id"
+    t.integer  "credit_card_id"
   end
 
   add_index "users", ["bill_address_id"], name: "index_users_on_bill_address_id", using: :btree
+  add_index "users", ["credit_card_id"], name: "index_users_on_credit_card_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["ship_address_id"], name: "index_users_on_ship_address_id", using: :btree

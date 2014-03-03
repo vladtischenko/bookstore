@@ -15,6 +15,7 @@ Bookstore::Application.routes.draw do
   resources :ship_addresses
   resources :orders
   resources :order_items
+  resources :credit_cards
 
   get '/home', to: 'books#news'
   get '/users/:user_id/orders', to: 'orders#index', as: :user_orders
@@ -22,9 +23,15 @@ Bookstore::Application.routes.draw do
   get '/categories/:category_id/books', to: 'books#get_by_category', as: :category_books
   get '/users/:user_id/orders/cart/empty', to: 'orders#empty', as: :empty_cart
 
-  # get '/books/:id/details', to: 'books#details', as: :book_details
-  # get 'books/:id/add_rating/:rating_id', to: 'books#add_rating', as: :book_add_rating
-
+  get 'checkouts/address', to: 'checkouts#address', as: :checkout_address
+  get 'checkouts/delivery', to: 'checkouts#delivery', as: :checkout_delivery
+  get '/checkouts/payment', to: 'checkouts#payment', as: :checkout_payment
+  get '/checkouts/confirm', to: 'checkouts#confirm', as: :checkout_confirm
+  get '/checkouts/complete', to: 'checkouts#complete', as: :checkout_complete
+  post 'checkouts/set', to: 'checkouts#set_addresses', as: :checkout_set_addresses
+  post '/checkouts/set_delivery', to: 'checkouts#set_delivery', as: :checkout_set_delivery
+  post '/checkouts/payment', to:'checkouts#payment', as: :checkout_set_payment
+  get '/checkouts/set_complete', to: 'checkouts#set_complete', as: :checkout_set_complete
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

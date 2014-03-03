@@ -2,7 +2,6 @@ class RatingsController < ApplicationController
   def new
     @book = Book.find(params[:book_id])
     @rating = Rating.new
-    [@rating, @book]
   end
 
   def create

@@ -28,3 +28,20 @@ th { border-bottom: 1px solid #DDD !important; }
     height: 250px;
     float: left;
 }
+
+ul.hr {
+  margin: 0; /* Обнуляем значение отступов */
+  padding: 4px; /* Значение полей */
+}
+ul.hr li {
+  display: inline; /* Отображать как строчный элемент */
+  margin-right: 5px; /* Отступ слева */
+  padding: 3px; /* Поля вокруг текста */
+}
+ul.hr li b {
+  font-size: 170%;
+}
+
+.checkout_adrs {
+  margin-right: 150px;
+}

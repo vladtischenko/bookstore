@@ -1,9 +1,11 @@
 class BillAddressesController < ApplicationController
+  # load_and_authorize_resource
+
   def create
     @bill_address = BillAddress.new(bill_address_params)
+    @bill_address.user = current_user
 
     if @bill_address.save
-      current_user.bill_address = @bill_address
       current_user.save
 
       redirect_to edit_user_registration_path,
