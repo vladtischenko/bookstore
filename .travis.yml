@@ -1,10 +1,14 @@
+# language: ruby
+# gemfile:
+#   - gemfiles/Gemfile.travis
+# rvm:
+#   - 2.0.0-p247
+#   - rbx
+# matrix:
+#   allow_failures:
+#     - rvm: rbx
+# cache: bundler
+
 language: ruby
-gemfile:
-  - gemfiles/Gemfile.travis
 rvm:
   - 2.0.0-p247
-  - rbx
-matrix:
-  allow_failures:
-    - rvm: rbx
-cache: bundler
