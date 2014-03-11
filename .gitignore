@@ -15,5 +15,5 @@
 /log/*.log
 /tmp
 
-/public/public/
-/public/images/
+/public/public/*
+/public/images/*
