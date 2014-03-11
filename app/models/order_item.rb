@@ -1,10 +1,10 @@
 class OrderItem < ActiveRecord::Base
   belongs_to :book
   belongs_to :order
-  validates :quantity, presence: true
-  validates :price, presence: true
-  validates :order_id, :book_id, presence: true
-  # validates :total, presence: true
+  validates :order_id, presence: true
+  validates :book_id, presence: true
+  validates :quantity, :price, presence: true, numericality: true
+  # validates :total, numericality: true
 
   before_save :set_total
 

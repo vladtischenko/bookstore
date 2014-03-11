@@ -40,6 +40,9 @@
       </ul>
 
 			<p class="navbar-text pull-right">
+      
+      <!--<%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook) %>-->
+
 			<% if user_signed_in? %>
 			  <!--Logged in as <strong><%= current_user.email %></strong>.-->
         <%= link_to 'Orders', user_orders_path(user_id: current_user), :class => 'navbar-link' %> |

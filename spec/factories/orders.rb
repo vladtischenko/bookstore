@@ -2,9 +2,10 @@
 
 FactoryGirl.define do
   factory :order do
-    bill_adress "MyString"
-    ship_address "MyString"
-    state false
-    user nil
+    order_total 0.5
+    shipping 0.0
+    subtotal 0.0
+    number "123"
+    state "in_progress"
   end
 end

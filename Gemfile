@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+  source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
@@ -66,6 +66,20 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+
+
+
+#--------------------------------------
+# platforms :rbx do
+  # gem 'racc'
+  # gem 'rubysl', '~> 2.0'
+  # gem 'psych'
+# end
+# 
+# eval_gemfile File.expand_path('../../Gemfile', __FILE__)
+#--------------------------------------
+
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

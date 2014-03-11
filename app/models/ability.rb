@@ -10,6 +10,7 @@ class Ability
     can :create, Order
     can :create, Rating
     can [:create, :update], [BillAddress, ShipAddress]
+    can [:create, :update], CreditCard
 
     # alias_action :create, :update, :destroy, to: :adm_actions
 

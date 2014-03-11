@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :rating do
-    text "MyText"
-    rating 1
+    title "Not bad"
+    text "I like it"
+    rate 1
   end
 end

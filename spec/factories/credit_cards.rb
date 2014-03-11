@@ -2,10 +2,10 @@
 
 FactoryGirl.define do
   factory :credit_card do
-    card_number 1
-    expiration_month "MyString"
-    expiration_year 1
-    code 1
-    user nil
+    card_number 1236325897521025
+    expiration_month "april"
+    expiration_year 2015
+    code 1212
+    user 1
   end
 end

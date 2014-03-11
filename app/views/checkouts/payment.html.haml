@@ -2,8 +2,8 @@
 
 %div.checkout_adrs{style: "float: left"}
   %h4 CREDIT CARD
-  = form_for CreditCard.new do |f|
-    -if current_user.credit_card
+  -if current_user.credit_card
+    = form_for current_user.credit_card do |f|
       %p
         = f.text_field :card_number, value: current_user.credit_card.card_number
         %br
@@ -15,11 +15,14 @@
         = f.select :expiration_year, options_for_select(@years), selected: current_user.credit_card.expiration_year
         %br
       %p
-        = f.text_field :code, placeholder: 'Card Code'
+        = f.password_field :code, placeholder: 'Card Code'
         = link_to "(What's this)", 'http://en.wikipedia.org/wiki/Card_security_code'
         = f.hidden_field :user_id, value: current_user.id
         %br
-    -else
+      %p  
+        = f.submit 'SAVE AND CONTINUE'
+  -else
+    = form_for CreditCard.new do |f|
       %p
         = f.text_field :card_number, placeholder: 'Card Number'
         %br
@@ -31,12 +34,12 @@
         = f.select :expiration_year, options_for_select(@years, 'Year')
         %br
       %p
-        = f.text_field :code, placeholder: 'Card Code'
+        = f.password_field :code, placeholder: 'Card Code'
         = link_to "(What's this)", 'http://en.wikipedia.org/wiki/Card_security_code'
         = f.hidden_field :user_id, value: current_user.id
         %br
-    %p  
-      = f.submit 'SAVE AND CONTINUE'
+      %p  
+        = f.submit 'SAVE AND CONTINUE'
   
 %div
   %h4 ORDER SUMMARY

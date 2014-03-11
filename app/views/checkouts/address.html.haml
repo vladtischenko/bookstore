@@ -1,6 +1,6 @@
 = render 'head'
 
-= form_tag checkout_set_addresses_path do
+= form_tag checkout_set_addresses_path, id: 'addresses' do
   %div.checkout_adrs{style: "float: left"}
     %h4 BILLING ADDRESS
     - if current_user.bill_address

@@ -31,7 +31,7 @@
           %td
             $
             = order_item.total
-          %td= link_to 'x', order_item_path(order_item), method: :delete
+          %td= link_to 'x', order_item_path(order_item), id: "#{order_item.id}_delete", method: :delete
 
       %tr
         %td{colspan: 3}
@@ -40,7 +40,7 @@
           SUBTOTAL: $ 
           = @order.subtotal.round(2)
       %tr
-        %td= link_to 'emrty cart', empty_cart_path, data: { confirm: 'Are you sure?' }
+        %td= link_to 'empty cart', empty_cart_path, data: { confirm: 'Are you sure?' }
         %td= link_to 'continue shopping', books_path
         %td= f.submit 'update'
         %td= link_to 'checkout', checkout_address_path

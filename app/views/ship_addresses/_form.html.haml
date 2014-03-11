@@ -1,25 +1,25 @@
-= form_for @ship_address do |f|
+= form_for current_user.current_ship_address do |f|
   - if current_user.ship_address
     %p
-      = f.text_field :firstname, value: @ship_address.firstname
+      = f.text_field :firstname, value: current_user.current_ship_address.firstname
       %br
     %p
-      = f.text_field :lastname, value: @ship_address.lastname
+      = f.text_field :lastname, value: current_user.current_ship_address.lastname
       %br
     %p
-      = f.text_field :street, value: @ship_address.street
+      = f.text_field :street, value: current_user.current_ship_address.street
       %br
     %p
-      = f.text_field :city, value: @ship_address.city
+      = f.text_field :city, value: current_user.current_ship_address.city
       %br
     %p
       -#= f.collection_select :country_id, @countries, :id, :name
       = f.collection_select :country_id, Country.all, :id, :name
     %p 
-      = f.text_field :zipcode, value: @ship_address.zipcode
+      = f.text_field :zipcode, value: current_user.current_ship_address.zipcode
       %br
     %p
-      = f.text_field :phone, value: @ship_address.phone
+      = f.text_field :phone, value: current_user.current_ship_address.phone
       %br
     %p
   - else

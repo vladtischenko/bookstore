@@ -2,8 +2,7 @@
 
 FactoryGirl.define do
   factory :author do
-    firstname "MyString"
-    lastname "MyString"
-    references ""
+    firstname "Dave"
+    lastname "Thomas"
   end
 end

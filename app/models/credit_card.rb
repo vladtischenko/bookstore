@@ -1,5 +1,6 @@
 class CreditCard < ActiveRecord::Base
   belongs_to :user
+  validates :expiration_month, presence: true
   validates :user_id, :card_number, :code, :expiration_year,
-            :expiration_month, presence: true
+            presence: true, numericality: true
 end

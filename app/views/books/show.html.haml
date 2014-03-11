@@ -14,7 +14,7 @@
         = f.number_field :quantity, min: 1, max: 10, value: 1
         = f.hidden_field :book_id, value: @book.id
         -if current_user
-          = f.hidden_field :order_id, value: current_user.current_order
+          = f.hidden_field :order_id, value: current_user.current_order.id
         = f.hidden_field :price, value: @book.price
         = f.submit 'add to cart'
   %tr
@@ -25,7 +25,7 @@
 %div{style: "float: left"}
   Reviews
 %div 
-  = link_to 'add review for this book', new_book_rating_path(@book)
+  = link_to "add review for #{@book.title}", new_book_rating_path(@book)
 
 %br
 

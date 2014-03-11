@@ -2,7 +2,7 @@
 
 %div.checkout_adrs{style: "float: left"}
   %br
-  = form_tag checkout_set_delivery_path do
+  = form_tag checkout_set_delivery_path, id: 'delivery' do
     = radio_button_tag :shipping, 'ground'
     UPS Ground +$5.00
     %br

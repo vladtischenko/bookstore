@@ -2,23 +2,23 @@ class CheckoutsController < ApplicationController
   def address; end
   def delivery; end
   def complete; end
-  
+
   def confirm
     shipping = current_user.current_order.shipping
     if shipping == 5
       @shipment = 'UPS ground'
     elsif shipping == 10
       @shipment = 'UPS two days'
-    elsif shipping ==15
+    elsif shipping == 15
       @shipment = 'UPS one day'
     else
-      redirect_to checkout_payment_path, notice: 'Ann error has occured!!!'# do notice with I18n
+      redirect_to checkout_payment_path, notice: t(:error, scope: [:fail])
     end
   end
 
   def payment
     @years =  ['2014', '2015', '2016', '2017', '2018']
-    @months = ['January', 'February', 'March', 'April', 'June',
+    @months = ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December']
   end
 
@@ -38,7 +38,6 @@ class CheckoutsController < ApplicationController
 
   def set_delivery
     if params[:shipping]
-      number = 0
       if params[:shipping] == 'ground'
         number = 5
       elsif params[:shipping] == 'two_days'
@@ -50,11 +49,17 @@ class CheckoutsController < ApplicationController
       redirect_to checkout_payment_path
     else
       redirect_to checkout_delivery_path,
-        notice: 'Ann error data! Choose delivery' # do notice with I18n
+        notice: t(:empty_field, scope: [:fail])
     end
   end
 
   def set_addresses
+    if set_bill and set_ship
+      redirect_to checkout_delivery_path
+    else
+      redirect_to checkout_address_path, 
+        notice: t(:empty_field, scope: [:fail])
+    end
   end
 
   private
@@ -70,5 +75,17 @@ class CheckoutsController < ApplicationController
         lastname: params[:s_lastname], street: params[:s_street],
         city: params[:s_city], phone: params[:s_phone], zipcode: params[:s_zipcode],
         country_id: params[:s_country_id][:country_id]}
+    end
+
+    def set_bill
+      current_user.current_bill_address.update(bill_params) ? true : false
+    end
+
+    def set_ship
+      if params[:ship_as_bill]
+        current_user.current_ship_address.update(bill_params) ? true : false
+      else
+        current_user.current_ship_address.update(ship_params) ? true : false
+      end
     end
 end

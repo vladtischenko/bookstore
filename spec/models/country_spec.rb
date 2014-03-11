@@ -1,5 +1,8 @@
 require 'spec_helper'
 
 describe Country do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:country) { FactoryGirl.create :country }
+
+  it { expect(country).to validate_presence_of :name }
+  it { expect(country.name.size).to be_between 2, 25 }
 end

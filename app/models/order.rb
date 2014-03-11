@@ -1,11 +1,10 @@
 class Order < ActiveRecord::Base
   has_many :order_items, dependent: :destroy
   belongs_to :user
+  validates :state, :number, presence: true
   validates :subtotal, numericality: true
-  validates :state, presence: true
-  validates :number, presence: true
-  validates :shipping, numericality: true, presence: true
-  # validates :order_total
+  validates :shipping, presence: true, numericality: true 
+  validates :order_total, numericality: true
   # validates :completed_at
 
   before_save :set_total
@@ -14,6 +13,11 @@ class Order < ActiveRecord::Base
   scope :in_delivery, -> { where(state: 'in_delivery') }
   scope :delivered, -> { where(state: 'delivered') }
   scope :by_user, -> (user) { where(user_id: user.id)  }
+
+  def to_set
+    {state: self.state, user_id: self.user_id, number: self.number,
+      subtotal: self.subtotal, order_total: self.order_total, shipping: self.shipping}
+  end
 
   def set_total(shipping = nil)
     self.subtotal = 0

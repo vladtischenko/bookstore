@@ -26,9 +26,10 @@ en:
     created: "%{obj} was successfully created"
     updated: "%{obj} was successfully updated"
     destroyed: "%{obj} was successfully destroyed"
-    confirm: ""
 
   fail:
     created: "%{obj} wasn't created"
     updated: "%{obj} wasn't updated"
     destroyed: "%{obj} wasn't destroyed"
+    error: "Ann error has occurred"
+    empty_field: "Some field is empty!"

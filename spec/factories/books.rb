@@ -2,11 +2,11 @@
 
 FactoryGirl.define do
   factory :book do
-    title "MyString"
-    short_description "MyText"
-    description "MyText"
-    picture "MyString"
-    in_stock "MyString"
-    price 1.5
+    title "War and Pease"
+    short_description "short description for book"
+    description "full description for War and Pease"
+    picture "/path"
+    in_stock "10"
+    price 99.99
   end
 end

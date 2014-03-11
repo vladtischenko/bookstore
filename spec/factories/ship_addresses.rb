@@ -2,12 +2,12 @@
 
 FactoryGirl.define do
   factory :ship_address do
-    city "MyString"
-    street "MyString"
-    firstname "MyString"
-    lastname "MyString"
-    zipcode "MyString"
-    phone "MyString"
+    city "New York"
+    street "Allen st.17"
+    firstname "Jonh"
+    lastname "Lewis"
+    zipcode "558555-2516"
+    phone "+66987206801"
     country nil
   end
 end

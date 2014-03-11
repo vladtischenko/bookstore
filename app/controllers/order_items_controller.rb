@@ -3,10 +3,9 @@ class OrderItemsController < ApplicationController
   
   def create
     @order_item = OrderItem.new(order_item_params)
-    @order_item.order = current_user.current_order
+    # @order_item.order = current_user.current_order
 
     if @order_item.save
-      current_user.save
 
       redirect_to user_orders_cart_path(current_user),
         notice: t(:created, scope: [:success], obj: @order_item.class.to_s)
@@ -18,7 +17,6 @@ class OrderItemsController < ApplicationController
   def destroy
     @order_item = OrderItem.find(params[:id])
 
-    # if current_user.current_order.order_items.include? @order_item
     if @order_item.destroy
       redirect_to user_orders_cart_path(current_user),
         notice: t(:destroyed, scope: [:success], obj: @order_item.class.to_s)
@@ -30,6 +28,6 @@ class OrderItemsController < ApplicationController
 
   private
     def order_item_params
-      params.require(:order_item).permit(:book_id, :quantity, :price)
+      params.require(:order_item).permit(:book_id, :quantity, :price, :order_id)
     end
 end
