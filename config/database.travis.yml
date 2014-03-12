@@ -1,6 +1,14 @@
-postgresql: &postgresql
+# postgresql: &postgresql
+#   adapter: postgresql
+#   username: vlad
+#   password:
+#   database: bookstore_<%= Rails.env %>
+#   min_messages: ERROR
+
+test:
   adapter: postgresql
+  encoding: unicode
+  database: bookstore_test
+  pool: 5
   username: vlad
-  password:
-  database: bookstore_<%= Rails.env %>
-  min_messages: ERROR
+  password: 
