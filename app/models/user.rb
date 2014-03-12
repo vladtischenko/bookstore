@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   has_one :ship_address, dependent: :destroy
   has_one :credit_card, dependent: :destroy
 
-
   after_create :current_order
 
   def self.new_with_session(params, session)
