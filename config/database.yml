@@ -8,7 +8,7 @@ development:
   encoding: unicode
   database: bookstore_development
   pool: 5
-  username: vlad
+  username: postgres
   password: 
 
 # Warning: The database defined as "test" will be erased and
@@ -19,7 +19,7 @@ test:
   encoding: unicode
   database: bookstore_test
   pool: 5
-  username: vlad
+  username: postgres
   password: 
 
 production:
