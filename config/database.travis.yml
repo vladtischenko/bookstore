@@ -1,0 +1,6 @@
+postgresql: &postgresql
+  adapter: postgresql
+  username: vlad
+  password:
+  database: bookstore_<%= Rails.env %>
+  min_messages: ERROR
