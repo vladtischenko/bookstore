@@ -1,5 +1,5 @@
 class BillAddressesController < ApplicationController
-  # load_and_authorize_resource
+  authorize_resource
 
   def create
     @bill_address = BillAddress.new(bill_address_params)

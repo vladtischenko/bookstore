@@ -33,8 +33,9 @@ class User < ActiveRecord::Base
       user.uid = auth.uid
       user.email = auth.info.email
       user.password = Devise.friendly_token[0,20]
-      user.firstname = auth.info.name   # assuming the user model has a name
-      # user.image = auth.info.image # assuming the user model has an image
+      user.lastname = auth.info.last_name
+      user.firstname = auth.info.first_name
+      user.save!
     end
   end
 

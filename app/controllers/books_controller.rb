@@ -3,6 +3,7 @@ class BooksController < ApplicationController
   skip_before_action :authenticate_user!
 
   def index
+    # @books = Kaminari.paginate_array(Book.all.shuffle).page(params[:page]).per(9)
     @books = Book.all.page(params[:page]).per(9)
     @categories = Category.all
   end

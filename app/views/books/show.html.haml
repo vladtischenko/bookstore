@@ -38,7 +38,10 @@
         %td= rating.created_at.asctime
     %div
       by
-      = rating.user
+      -if rating.user
+        = rating.user
+      -else
+        anonym
     %div
       = rating.text
   - else 
