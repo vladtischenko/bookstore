@@ -6,8 +6,6 @@ class BillAddressesController < ApplicationController
     @bill_address.user = current_user
 
     if @bill_address.save
-      current_user.save
-
       redirect_to edit_user_registration_path,
         notice: t(:created, scope: [:success], obj: @bill_address.class.to_s)
     else
@@ -18,7 +16,7 @@ class BillAddressesController < ApplicationController
 
   def update
     if current_user.bill_address.update(bill_address_params)
-      current_user.save
+      # current_user.save
       
       redirect_to edit_user_registration_path,
         notice: t(:updated, scope: [:success], obj: current_user.bill_address.class.to_s)

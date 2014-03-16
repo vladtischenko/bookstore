@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'set'
 
 describe User do
+  let(:delivery) { FactoryGirl.create :delivery }
   let(:user) { FactoryGirl.create :user }
 
   it { expect(user).to validate_presence_of :firstname }
@@ -24,6 +25,8 @@ describe User do
   end
 
   context "methods" do
+    let(:delivery) { FactoryGirl.create :delivery }
+
     context "to_s" do
       it "return user's firstname and lastname" do
         expect(user.to_s).to eq "#{user.firstname} #{user.lastname}"
@@ -42,8 +45,7 @@ describe User do
         # expect(user.current_order).to eq @order
         expect(user.current_order.to_set).to eq({state: @order.state,
           number: @order.number, user_id: @order.user_id, subtotal: @order.subtotal,
-          order_total: @order.order_total, shipping: @order.shipping})
-
+          order_total: @order.order_total, delivery_id: @order.delivery_id})
       end
       it "doesn't return or create order if state not eq in_progress" do
         @order.state = 'waiting'

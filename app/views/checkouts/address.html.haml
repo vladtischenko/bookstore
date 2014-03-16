@@ -1,7 +1,7 @@
 = render 'head'
 
 = form_tag checkout_set_addresses_path, id: 'addresses' do
-  %div.checkout_adrs{style: "float: left"}
+  %div.col-md-4  
     %h4 BILLING ADDRESS
     - if current_user.bill_address
       %p
@@ -52,7 +52,7 @@
         %br
     = submit_tag 'SAVE AND CONTINUE'
 
-  %div.checkout_adrs{style: "float: left"}
+  %div.col-md-4 
     %h4 SHIPPING ADDRESS     
     = check_box_tag 'ship_as_bill'
     Use Bill Address

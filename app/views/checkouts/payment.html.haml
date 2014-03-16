@@ -1,6 +1,6 @@
 = render 'head'
 
-%div.checkout_adrs{style: "float: left"}
+%div.col-md-8
   %h4 CREDIT CARD
   -if current_user.credit_card
     = form_for current_user.credit_card do |f|
@@ -52,7 +52,10 @@
       %td
         SHIPPING: $
         %span#shipping_value
-          = current_user.current_order.shipping.round(2)
+          - if current_user.current_order.delivery
+            = current_user.current_order.delivery.price.round(2)
+          - else
+            0.0
     %tr
       %td
         ORDER TOTAL: $

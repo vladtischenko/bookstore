@@ -1,23 +1,25 @@
-= link_to '<< shop', books_path
+= link_to '<< shop', books_path, {style:"margin-left: 170px"}
 
-%h3 
+%h3{style:"margin-left: 170px"} 
   = @category.title
 
-%div.container_book
-  %ul
-    - @books.each do |book|
-      %li
-        = link_to book_path(book) do
-          = image_tag(book.picture_url, :width => 100) if book.picture.present?
-        %br
-        = link_to book.title, book_path(book)
-        %br
-        $
-        = book.price
-        %br
-        %br
+%div.col-md-8
+  %div.container_book
+    %ul
+      - @books.each do |book|
+        %li
+          = link_to book_path(book) do
+            = image_tag(book.picture_url, :width => 100) if book.picture.present?
+          %br
+          = link_to book.title, book_path(book)
+          %br
+          $
+          = book.price
+          %br
+          %br
 
-  = paginate @books, window: 2  
+    %div{style:"margin-left: 150px"}
+      = paginate @books, window: 2  
 
 %div
   SHOP BY CATEGORIES

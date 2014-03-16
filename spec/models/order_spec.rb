@@ -1,18 +1,18 @@
 require 'spec_helper'
 
 describe Order do
-  let(:order) { FactoryGirl.create :order }
+  let(:delivery) { FactoryGirl.create :delivery, price: 10.0 }
+  let(:order) { FactoryGirl.create :order, delivery: delivery }
 
   it { expect(order).to validate_presence_of :state }
   it { expect(order).to validate_presence_of :number }
-  it { expect(order).to validate_presence_of :shipping }
-  it { expect(order).to validate_numericality_of :shipping }
   it { expect(order).to validate_numericality_of :order_total }
   it { expect(order).to validate_numericality_of :subtotal }
 
   context "relations" do
     it { expect(order).to belong_to :user }
     it { expect(order).to have_many :order_items }
+    it { expect(order).to have_one :delivery }
   end
 
   context "callbacks" do
@@ -29,14 +29,14 @@ describe Order do
       before do
         @user = double("user", email: "pupkin@example.com", firstname: "Vasiliy",
           lastname: "Pupkin", password: "12345678", id: 1)
-        @orders = FactoryGirl.create_list :order, 1, user_id: @user.id
+        @orders = FactoryGirl.create_list :order, 1, user_id: @user.id, delivery: delivery
       end
 
       it "return orders by exactly user" do
         expect(Order.by_user(@user)).to match_array @orders
       end
       it "doesn't return order with outher user" do
-        order = FactoryGirl.create :order
+        order = FactoryGirl.create :order, delivery: delivery
         @orders << order
         expect(Order.by_user(@user)).not_to match_array @orders
       end
@@ -44,13 +44,13 @@ describe Order do
 
     context "waiting" do
       before do
-        @orders = FactoryGirl.create_list :order, 5, state: 'waiting'
+        @orders = FactoryGirl.create_list :order, 5, state: 'waiting', delivery: delivery
       end
       it "return orders where state eq waiting" do
         expect(Order.waiting).to match_array @orders
       end
       it "doesn't return order if state not eq waiting" do
-        order = FactoryGirl.create :order
+        order = FactoryGirl.create :order, delivery: delivery
         @orders << order
         expect(Order.waiting).not_to match_array @orders
       end
@@ -58,13 +58,13 @@ describe Order do
 
     context "in_delivery" do
       before do
-        @orders = FactoryGirl.create_list :order, 5, state: 'in_delivery'
+        @orders = FactoryGirl.create_list :order, 5, state: 'in_delivery', delivery: delivery
       end
       it "return orders where state eq in_delivery" do
         expect(Order.in_delivery).to match_array @orders
       end
       it "doesn't return order if state not eq in_delivery" do
-        order = FactoryGirl.create :order
+        order = FactoryGirl.create :order, delivery: delivery
         @orders << order
         expect(Order.in_delivery).not_to match_array @orders
       end
@@ -72,13 +72,13 @@ describe Order do
 
     context "delivered" do
       before do
-        @orders = FactoryGirl.create_list :order, 5, state: 'delivered'
+        @orders = FactoryGirl.create_list :order, 5, state: 'delivered', delivery: delivery
       end
       it "return orders where state eq delivered" do
         expect(Order.delivered).to match_array @orders
       end
       it "doesn't return order if state not eq delivered" do
-        order = FactoryGirl.create :order
+        order = FactoryGirl.create :order, delivery: delivery
         @orders << order
         expect(Order.delivered).not_to match_array @orders
       end
@@ -97,14 +97,6 @@ describe Order do
         order.set_total
         expect(order.subtotal).to eq 50
       end
-      it "set shipping" do
-        order.set_total 5
-        expect(order.shipping).to eq 5
-      end
-      it "set order_total" do
-        order.set_total 10
-        expect(order.order_total).to eq 60
-      end
     end
 
     context "set_state" do
@@ -122,8 +114,8 @@ describe Order do
       it "reset subtotal" do
         expect(order.subtotal).to eq 0
       end
-      it "reset shipping" do
-        expect(order.shipping).to eq 0
+      it "reset delivery" do
+        expect(order.delivery).to eq nil
       end
       it "reser order_total" do
         expect(order.order_total).to eq 0

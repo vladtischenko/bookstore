@@ -25,6 +25,8 @@ gem 'activeadmin', github: 'gregbell/active_admin' # admin panel
 
 gem 'twitter-bootstrap-rails'
 
+# gem 'less-rails'
+
 gem 'omniauth'
 
 gem 'omniauth-facebook'

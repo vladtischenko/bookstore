@@ -22,7 +22,7 @@ feature "Detailed info for a book" do
   feature "User click book image and see detaile info" do
     scenario "home page" do
       visit home_path
-      click_link @book.picture
+      click_link "#{@book.id}_img"
       expect(page).to have_content "add review for #{@book.title}"
     end
     scenario "shop page" do

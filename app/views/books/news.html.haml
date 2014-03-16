@@ -1,4 +1,7 @@
-%div
+%div.col-md-8{style:"margin-left: 200px"}
+  %div{style:"float: left"}
+    = link_to rel:'prev' do
+      %button.btn-prv-nxt{style:"margin-top: 125px"} <
   - @books.each do |book|
     %div
       %div
@@ -14,7 +17,7 @@
         %table
           %tr
             %td
-              = link_to book_path(book) do
+              = link_to book_path(book), id: "#{book.id}_img" do
                 = image_tag(book.picture_url, :width => 200) if book.picture.present?
             %td= book.description
           %tr
@@ -36,4 +39,6 @@
               %br
               %br
 
-              = paginate @books, window: 2
+%div
+  = link_to rel:'next' do
+    %button.btn-prv-nxt{style:"margin-top: 125px"} >

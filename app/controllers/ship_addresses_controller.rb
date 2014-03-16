@@ -6,8 +6,6 @@ class ShipAddressesController < ApplicationController
     @ship_address.user = current_user
 
     if @ship_address.save
-      current_user.save
-
       redirect_to edit_user_registration_path,
         notice: t(:created, scope: [:success], obj: @ship_address.class.to_s)
     else
@@ -18,7 +16,7 @@ class ShipAddressesController < ApplicationController
 
   def update
     if current_user.ship_address.update(ship_address_params)
-      current_user.save
+      # current_user.save
       
       redirect_to edit_user_registration_path,
         notice: t(:updated, scope: [:success], obj: current_user.ship_address.class.to_s) 

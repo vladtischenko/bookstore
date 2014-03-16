@@ -2,87 +2,93 @@
   %h4
     Order
     = @order.number
-  %table
-    %tr
-      %th
-        Shipping address
-        |
-      %th
+  %div
+    %div.col-md-3
+      %b
+        Shipping address 
+      |
+      %br
+      %br
+      = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
+      %br
+      = current_user.ship_address.street
+      %br
+      = current_user.ship_address.city
+      = current_user.ship_address.zipcode
+      %br
+      = current_user.ship_address.country.name
+      %br
+      Phone
+      = current_user.ship_address.phone
+
+    %div.col-md-3
+      %b
         Billing address
-        |
-      %th
-        Shipments
-        |
-      %th
+      |
+      %br
+      %br    
+      = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
+      %br
+      = current_user.bill_address.street
+      %br
+      = current_user.bill_address.city
+      = current_user.bill_address.zipcode
+      %br
+      = current_user.bill_address.country.name
+      %br
+      Phone
+      = current_user.bill_address.phone
+
+    %div.col-md-3
+      %b
+        Sipments
+      |
+      %br
+      %br
+      = @order.delivery
+
+    %div
+      %b
         Payment information
+      %br
+      %br
+      -if current_user.credit_card
+        = current_user.credit_card.card_number
+        %br
+        = current_user.credit_card.expiration_month
+        = current_user.credit_card.expiration_year
+      -else
+        Fill your credit card information!!!
 
-    %tr
-      %td
-        = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}"
-        %br
-        = current_user.ship_address.street
-        %br
-        = current_user.ship_address.city
-        = current_user.ship_address.zipcode
-        %br
-        = current_user.ship_address.country.name
-        %br
-        Phone
-        = current_user.ship_address.phone
-
-      %td
-        = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
-        %br
-        = current_user.bill_address.street
-        %br
-        = current_user.bill_address.city
-        = current_user.bill_address.zipcode
-        %br
-        = current_user.bill_address.country.name
-        %br
-        Phone
-        = current_user.bill_address.phone
-
-      %td
-        = @shipment
-
-      %td
-        -if current_user.credit_card
-          = current_user.credit_card.card_number
-          %br
-          = current_user.credit_card.expiration_month
-          = current_user.credit_card.expiration_year
-        -else
-          Fill your credit card information!!!
-  %br
-  %br
-  %table
-    %tr
-      %th BOOK
-      %th PRICE
-      %th QTY
-      %th TOTAL
-
-    - @order.order_items.each do |order_item|
+  
+  %div{style:"margin-top: 200px"}
+    %table
       %tr
-        %td
-          %table
-            %tr
-              %td
-                = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
-              %td
-                %table
-                  %tr
-                    %td= order_item.book.title
-                  %tr
-                    %td= order_item.book.short_description
-        %td
-          $
-          = order_item.book.price
-        %td= order_item.quantity
-        %td
-          $
-          = order_item.total
+        %th BOOK
+        %th PRICE
+        %th QTY
+        %th TOTAL
+
+      - @order.order_items.each do |order_item|
+        %tr
+          %td
+            %table
+              %tr
+                %td
+                  = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
+                %td
+                  %table
+                    %tr
+                      %td= order_item.book.title
+                    %tr
+                      %td= order_item.book.short_description
+          %td
+            $
+            = order_item.book.price
+          %td= order_item.quantity
+          %td
+            $
+            = order_item.total
   %br
 
   %div
@@ -96,7 +102,7 @@
         %td{colspan: 3}
           SHIPPING: $
           %b
-            = @order.shipping.round(2)
+            = @order.delivery.price.round(2)
       %tr
         %td{colspan: 3}
           ORDER TOTAL: $

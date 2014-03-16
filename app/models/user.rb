@@ -50,7 +50,6 @@ class User < ActiveRecord::Base
       order.number = "R#{Time.now.to_i}"
       order.subtotal = 0
       order.order_total = 0
-      order.shipping = 0
     end
     order.set_total
     order

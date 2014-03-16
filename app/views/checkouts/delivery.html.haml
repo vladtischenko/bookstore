@@ -1,18 +1,13 @@
 = render 'head'
 
-%div.checkout_adrs{style: "float: left"}
+%div.col-md-8
   %br
   = form_tag checkout_set_delivery_path, id: 'delivery' do
-    = radio_button_tag :shipping, 'ground'
-    UPS Ground +$5.00
-    %br
-    = radio_button_tag :shipping, 'two_days'
-    UPS Two Days +$10.00
-    %br
-    = radio_button_tag :shipping, 'one_day'
-    UPS One Day +$15.00
-    %br
-    %br
+    - @deliveries.each do |delivery|
+      = radio_button_tag :shipping, delivery.id
+      = delivery.text
+      = delivery.price      
+      %br
     %br
     = submit_tag 'SAVE AND CONTINUE'
 
@@ -27,7 +22,10 @@
       %td
         SHIPPING: $
         %span#shipping_value
-          = current_user.current_order.shipping.round(2)
+          - if current_user.current_order.delivery
+            = current_user.current_order.delivery.price.round(2)
+          - else
+            0.0
     %tr
       %td
         ORDER TOTAL: $

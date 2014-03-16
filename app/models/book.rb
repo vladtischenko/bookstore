@@ -15,10 +15,6 @@ class Book < ActiveRecord::Base
   scope :category, -> (category) { where(category_id: category.id) }
 
   def self.news_five
-    if count < 5
-      all.shuffle
-    else
-      find_by_sql("SELECT * FROM books ORDER BY created_at DESC LIMIT 5").shuffle
-    end
+    order(created_at: :desc).limit(5).shuffle
   end
 end

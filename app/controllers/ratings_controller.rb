@@ -7,9 +7,14 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new(rating_params)
     @rating.user = current_user
-    @rating.save
-
-    redirect_to book_path(@rating.book)
+    
+    if @rating.save
+      redirect_to book_path(@rating.book),
+        notice: t(:created, scope: [:success], obj: @rating.class.to_s)
+    else
+      redirect_to new_book_rating_path(@rating.book),
+        notice: t(:created, scope: [:fail], obj: @rating.class.to_s)
+    end
   end
 
   private

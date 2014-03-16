@@ -1,91 +1,100 @@
 = render 'head'
 
 %h4 CONFIRM
-%table
-  %tr
-    %th
-      Shipping address
-      = link_to 'edit', checkout_address_path
-      |
-    %th
+
+%div
+  %div.col-md-3
+    %b
+      Shipping address 
+    = link_to 'edit', checkout_address_path
+    |
+    %br
+    %br
+    = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
+    %br
+    = current_user.ship_address.street
+    %br
+    = current_user.ship_address.city
+    = current_user.ship_address.zipcode
+    %br
+    = current_user.ship_address.country.name
+    %br
+    Phone
+    = current_user.ship_address.phone
+
+  %div.col-md-3
+    %b
       Billing address
-      = link_to 'edit', checkout_address_path
-      |
-    %th
-      Shipments
-      = link_to 'edit', checkout_delivery_path
-      |
-    %th
+    = link_to 'edit', checkout_address_path
+    |
+    %br
+    %br    
+    = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
+    %br
+    = current_user.bill_address.street
+    %br
+    = current_user.bill_address.city
+    = current_user.bill_address.zipcode
+    %br
+    = current_user.bill_address.country.name
+    %br
+    Phone
+    = current_user.bill_address.phone
+
+  %div.col-md-3
+    %b
+      Sipments
+    = link_to 'edit', checkout_delivery_path
+    |
+    %br
+    %br
+    = current_user.current_order.delivery.text
+    = current_user.current_order.delivery.price
+
+  %div.col-md-3
+    %b
       Payment information
-      = link_to 'edit', checkout_payment_path
+    = link_to 'edit', checkout_payment_path
+    %br
+    %br
+    -if current_user.credit_card
+      = current_user.credit_card.card_number
+      %br
+      = current_user.credit_card.expiration_month
+      = current_user.credit_card.expiration_year
+    -else
+      Fill your credit card information!!!
 
-  %tr
-    %td
-      = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}"
-      %br
-      = current_user.ship_address.street
-      %br
-      = current_user.ship_address.city
-      = current_user.ship_address.zipcode
-      %br
-      = current_user.ship_address.country.name
-      %br
-      Phone
-      = current_user.ship_address.phone
 
-    %td
-      = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
-      %br
-      = current_user.bill_address.street
-      %br
-      = current_user.bill_address.city
-      = current_user.bill_address.zipcode
-      %br
-      = current_user.bill_address.country.name
-      %br
-      Phone
-      = current_user.bill_address.phone
-
-    %td
-      = @shipment
-
-    %td
-      -if current_user.credit_card
-        = current_user.credit_card.card_number
-        %br
-        = current_user.credit_card.expiration_month
-        = current_user.credit_card.expiration_year
-      -else
-        Fill your credit card information!!!
-%br
-%br
-%table
-  %tr
-    %th BOOK
-    %th PRICE
-    %th QTY
-    %th TOTAL
-
-  - current_user.current_order.order_items.each do |order_item|
+%div{style:"margin-top:200px"}
+  %table
     %tr
-      %td
-        %table
-          %tr
-            %td
-              = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
-            %td
-              %table
-                %tr
-                  %td= order_item.book.title
-                %tr
-                  %td= order_item.book.short_description
-      %td
-        $
-        = order_item.book.price
-      %td= order_item.quantity
-      %td
-        $
-        = order_item.total
+      %th BOOK
+      %th PRICE
+      %th QTY
+      %th TOTAL
+
+    - current_user.current_order.order_items.each do |order_item|
+      %tr
+        %td
+          %table
+            %tr
+              %td
+                = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
+              %td
+                %table
+                  %tr
+                    %td= order_item.book.title
+                  %tr
+                    %td= order_item.book.short_description
+        %td
+          $
+          = order_item.book.price
+        %td= order_item.quantity
+        %td
+          $
+          = order_item.total
+
 %br
 
 %div
@@ -99,7 +108,7 @@
       %td{colspan: 3}
         SHIPPING: $
         %b
-          = current_user.current_order.shipping.round(2)
+          = current_user.current_order.delivery.price.round(2)
     %tr
       %td{colspan: 3}
         ORDER TOTAL: $

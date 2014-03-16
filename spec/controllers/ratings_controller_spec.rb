@@ -31,5 +31,10 @@ describe RatingsController do
       post :create, id: rating.id, rating: rating_params
       expect(response).to redirect_to book_path(book)
     end
+    it "redirect_to new_book_rating_path if rating is't saved" do
+      rating.rate = nil
+      post :create, id: rating.id, rating: rating_params
+      expect(response).to redirect_to new_book_rating_path(book)
+    end
   end
 end

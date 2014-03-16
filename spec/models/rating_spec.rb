@@ -9,6 +9,7 @@ describe Rating do
   it { expect(rating).to validate_presence_of :text }
   it { expect(rating).to validate_presence_of :rate }
   it { expect(rating).to validate_numericality_of :rate }
+  it { expect(rating).to ensure_inclusion_of(:rate).in_range(1..5) }
 
   context "relations" do
     it { expect(rating).to belong_to :book }

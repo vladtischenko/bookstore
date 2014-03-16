@@ -1,18 +1,17 @@
 class CheckoutsController < ApplicationController
   def address; end
-  def delivery; end
   def complete; end
+  
+  def delivery
+    @deliveries = Delivery.by_price
+  end
 
   def confirm
-    shipping = current_user.current_order.shipping
-    if shipping == 5
-      @shipment = 'UPS ground'
-    elsif shipping == 10
-      @shipment = 'UPS two days'
-    elsif shipping == 15
-      @shipment = 'UPS one day'
+    if delivery = current_user.current_order.delivery
+      @shipment = delivery.text
     else
-      redirect_to checkout_payment_path, notice: t(:error, scope: [:fail])
+      redirect_to checkout_payment_path,
+        notice: t(:error, scope: [:fail])  
     end
   end
 
@@ -24,28 +23,14 @@ class CheckoutsController < ApplicationController
 
   def set_complete
     @order = current_user.current_order
-    shipping = current_user.current_order.shipping
-    if shipping == 5
-      @shipment = 'UPS ground'
-    elsif shipping == 10
-      @shipment = 'UPS two days'
-    else
-      @shipment = 'UPS one day'
-    end
     current_user.current_order.set_state
     render 'complete'
   end
 
   def set_delivery
     if params[:shipping]
-      if params[:shipping] == 'ground'
-        number = 5
-      elsif params[:shipping] == 'two_days'
-        number = 10
-      elsif params[:shipping] == 'one_day'
-        number = 15
-      end
-      current_user.current_order.set_total(number).save
+      delivery = Delivery.find(params[:shipping])
+      current_user.current_order.delivery = delivery
       redirect_to checkout_payment_path
     else
       redirect_to checkout_delivery_path,

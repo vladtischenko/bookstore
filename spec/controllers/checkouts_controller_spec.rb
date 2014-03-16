@@ -32,7 +32,8 @@ describe CheckoutsController do
 
   context "GET confirm" do
     before do
-      @order = double("order", shipping: 5)
+      @delivery = FactoryGirl.create :delivery
+      @order = FactoryGirl.create :order, delivery: @delivery
       controller.current_user.stub(:current_order).and_return(@order)
     end
     it "renders confirm template" do
@@ -41,7 +42,7 @@ describe CheckoutsController do
       expect(response).to render_template :confirm
     end
     it "redirect to checkout_payment_path" do
-      @order.stub(:shipping).and_return(0)
+      @order.delivery = nil
       get :confirm
       expect(response).to redirect_to checkout_payment_path
     end
@@ -63,11 +64,6 @@ describe CheckoutsController do
       get :set_complete
       expect(response).to render_template :complete
     end
-    it "assigns shipment" do
-      @order.stub(:shipping).and_return(5)
-      post :set_complete
-      expect(assigns(:shipment)).to eq 'UPS ground'
-    end
     it "assigns order" do
       post :set_complete
       expect(assigns(:order)).to eq @order
@@ -75,8 +71,9 @@ describe CheckoutsController do
   end
 
   context "POST set_delivery" do
+    let(:delivery) { FactoryGirl.create :delivery }
     it "redirect_to checkout_payment_path if shipping set" do
-      post :set_delivery, shipping: 'ground'
+      post :set_delivery, shipping: delivery.id
       expect(response).to redirect_to checkout_payment_path
     end
     it "redirect_to checkout_delivery_path unless shipping set" do

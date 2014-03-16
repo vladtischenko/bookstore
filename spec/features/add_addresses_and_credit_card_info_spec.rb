@@ -5,7 +5,9 @@ feature "User add addresses and credit card info" do
     @user = FactoryGirl.create :user
     login_as @user, scope: :user
 
-    @order = FactoryGirl.create :order, user_id: @user.id, state: 'in_progress'
+    Delivery.stub(:by_price).and_return(FactoryGirl.create_list :delivery, 5)
+    @delivery = Delivery.by_price.first
+    @order = FactoryGirl.create :order, user_id: @user.id, state: 'in_progress', delivery: @delivery
     @book = FactoryGirl.create :book
     @order_items = FactoryGirl.create_list :order_item, 2, book_id: @book.id, order_id: @order.id
     @order.order_items = @order_items
@@ -13,6 +15,15 @@ feature "User add addresses and credit card info" do
 
     Country.stub(:all).and_return(FactoryGirl.create_list :country, 5)
     @country = Country.all.first
+  end
+
+  scenario "User set delivery" do
+    visit checkout_delivery_path
+    within '#delivery' do
+      find("#shipping_#{@delivery.id}").set(true)
+      click_button 'SAVE AND CONTINUE'
+    end
+    expect(page).to have_content 'CREDIT CARD'
   end
 
   scenario "User fill bill address info" do
@@ -46,16 +57,7 @@ feature "User add addresses and credit card info" do
         fill_in 's_phone', with: '+380669632587'
         click_button 'SAVE AND CONTINUE'
       end
-      expect(page).to have_content 'UPS Ground +$5.00'
-    end
-
-    scenario "User set delivery" do
-      visit checkout_delivery_path
-      within '#delivery' do
-        find('#shipping_ground').set(true)
-        click_button 'SAVE AND CONTINUE'
-      end
-      expect(page).to have_content 'CREDIT CARD'
+      expect(page).to have_content 'UPS 10.25'
     end
 
     scenario "User set credit card info and continue" do
