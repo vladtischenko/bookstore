@@ -5,17 +5,10 @@
 $ ->
   $('#ship_as_bill').on 'click', ->
     if $(@).is ':checked'
-      $('div#ship_block').css("visibility","hidden")
+      $('div#ship_block').addClass 'hide'
     else
-      $('div#ship_block').css("visibility","visible")
+      $('div#ship_block').removeClass 'hide'
 
   $("input[type='radio']").on 'click', ->
-    if $('#shipping_ground').is ':checked'
-      $('#shipping_value').text '5.00 not saved'
-      $('#shipping_value').css 'color', 'red'
-    if $('#shipping_two_days').is ':checked'
-      $('#shipping_value').text '10.00 not saved'
-      $('#shipping_value').css 'color', 'red'
-    if $('#shipping_one_day').is ':checked'
-      $('#shipping_value').text '15.00 not saved'
-      $('#shipping_value').css 'color', 'red'
+    $('#shipping_value').text I18n.t('need_to_save')
+    $('#shipping_value').addClass 'not-saved'

@@ -1,10 +1,13 @@
 class CreditCardsController < ApplicationController
+  authorize_resource
+
   def create
     @credit_card = CreditCard.new(credit_card_params)
     if @credit_card.save
       redirect_to checkout_confirm_path
     else
-      redirect_to checkout_payment_path, notice: "CreaditCard is not saved"
+      redirect_to checkout_payment_path,
+        notice: t(:saved, scope: [:fail], obj: @credit_card.class.to_s)
     end
   end
 
@@ -14,7 +17,8 @@ class CreditCardsController < ApplicationController
     if @credit_card.update(credit_card_params)
       redirect_to checkout_confirm_path
     else
-      redirect_to checkout_payment_path, notice: "CreaditCard is not saved"
+      redirect_to checkout_payment_path,
+        notice: t(:saved, scope: [:fail], obj: @credit_card.class.to_s)
     end
   end
 

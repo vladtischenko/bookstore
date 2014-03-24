@@ -1,4 +1,6 @@
 class RatingsController < ApplicationController
+  authorize_resource
+
   def new
     @book = Book.find(params[:book_id])
     @rating = Rating.new

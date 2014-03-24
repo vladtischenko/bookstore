@@ -1,4 +1,4 @@
-  source 'https://rubygems.org'
+source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
@@ -24,6 +24,10 @@ gem "mini_magick" # format image
 gem 'activeadmin', github: 'gregbell/active_admin' # admin panel
 
 gem 'twitter-bootstrap-rails'
+
+gem 'i18n-js'
+
+gem 'compass-rails'
 
 # gem 'less-rails'
 

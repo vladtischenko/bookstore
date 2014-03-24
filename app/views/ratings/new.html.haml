@@ -1,5 +1,5 @@
 %h3
-  New review for
+  = t(:new_review_for, scope: :review)
   = link_to @book.title, book_path(@book)
 
 = form_for @rating do |f|
@@ -26,6 +26,6 @@
   = f.hidden_field :allow, value: false
   = f.hidden_field :book_id, value: @book.id
   %br
-  = f.submit 'add'
+  = f.submit t(:add)
   or
-  = link_to 'cancel', book_path(@book)
+  = link_to t(:cancel), book_path(@book)

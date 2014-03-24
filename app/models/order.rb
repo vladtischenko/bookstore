@@ -12,6 +12,7 @@ class Order < ActiveRecord::Base
   scope :waiting, -> { where(state: 'waiting') }
   scope :in_delivery, -> { where(state: 'in_delivery') }
   scope :delivered, -> { where(state: 'delivered') }
+  scope :in_progress, -> { where(state: 'in_progress') }
   scope :by_user, -> (user) { where(user_id: user.id)  }
 
   def to_set

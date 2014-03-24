@@ -21,6 +21,10 @@ module Bookstore
     # config.i18n.default_locale = :de
     I18n.enforce_available_locales = true
 
+    #for i18n-js
+    config.assets.initialize_on_precompile = true
+    config.assets.paths << Rails.root.join('public', 'javascripts')
+    
     config.generators do |g|
       g.test_framework :rspec
       g.fixture_replacement :factory_girl, dir: 'spec/factories'

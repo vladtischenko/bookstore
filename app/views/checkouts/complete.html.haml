@@ -1,13 +1,11 @@
 -if @order and current_user.bill_address and current_user.ship_address
   %h4
-    Order
+    = t(:name, scope: :order)
     = @order.number
-  %div
-    %div.col-md-3
+  %div.row
+    %div.span3
       %b
-        Shipping address 
-      |
-      %br
+        = t(:shipping_address) 
       %br
       = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
       %br
@@ -18,14 +16,12 @@
       %br
       = current_user.ship_address.country.name
       %br
-      Phone
+      = t(:phone)
       = current_user.ship_address.phone
 
-    %div.col-md-3
+    %div.span3
       %b
-        Billing address
-      |
-      %br
+        = t(:billing_address)
       %br    
       = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
       %br
@@ -36,21 +32,18 @@
       %br
       = current_user.bill_address.country.name
       %br
-      Phone
+      = t(:phone)
       = current_user.bill_address.phone
 
-    %div.col-md-3
+    %div.span3
       %b
-        Sipments
-      |
-      %br
+        = t(:shipments)
       %br
       = @order.delivery
 
-    %div
+    %div.span3
       %b
-        Payment information
-      %br
+        = t(:payment_info)
       %br
       -if current_user.credit_card
         = current_user.credit_card.card_number
@@ -58,16 +51,20 @@
         = current_user.credit_card.expiration_month
         = current_user.credit_card.expiration_year
       -else
-        Fill your credit card information!!!
+        = t(:fill_credit_cart_info, scope: :fail)
 
   
-  %div{style:"margin-top: 200px"}
+  %div.table
     %table
       %tr
-        %th BOOK
-        %th PRICE
-        %th QTY
-        %th TOTAL
+        %th
+          = t(:book, scope: [:book, :table])
+        %th
+          = t(:price, scope: [:book, :table])
+        %th
+          = t(:qty, scope: [:book, :table])
+        %th
+          = t(:total, scope: [:book, :table])
 
       - @order.order_items.each do |order_item|
         %tr
@@ -95,26 +92,29 @@
     %table
       %tr
         %td{colspan: 3}
-          SUBTOTAL: $
+          = t(:subtotal)
           %b
             = @order.subtotal.round(2)
       %tr
         %td{colspan: 3}
-          SHIPPING: $
+          = t(:shipping)
           %b
-            = @order.delivery.price.round(2)
+            -if @order.delivery
+              = @order.delivery.price.round(2)
       %tr
         %td{colspan: 3}
-          ORDER TOTAL: $
+          = t(:order_total)
           %b
             = @order.order_total.round(2)
   %br
   %br
 
   = link_to books_path do 
-    %button GO BACK TO STORE
+    %button
+      = t(:go_back_to_store)
 
 -else
-  %h4 Set addresses, payment and delivery!
+  %h4
+    = t(:set_addresses_payment_delivery)
   %br
-  = link_to '<< back', :back
+  = link_to t(:back), :back

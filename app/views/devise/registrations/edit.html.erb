@@ -1,43 +1,26 @@
 <h2>Settings</h2>
 
-<div class="col-md-6">
-  <h4>BILLING ADDRESS</h4>
-  <%= render 'bill_addresses/form' %>
+<div class="row">
+  <div class="span6">
+    <h4>BILLING ADDRESS</h4>
+    <%= render 'bill_addresses/form' %>
+  </div>
+  <div class="span6">
+    <h4>SHIPING ADDRESS</h4>
+    <%= render 'ship_addresses/form' %>
 </div>
-<div>
-  <h4>SHIPING ADDRESS</h4>
-  <%= render 'ship_addresses/form' %>
-</div>
-<!-- 
-<table>
-  <tr>
-    <th>BILLING ADDRESS</th>
-    <th>SHIPPING ADDRESS</th>
-  </tr>
-  <tr>
-    <td>
-      <div class="col-md-6">
-        <%= render 'bill_addresses/form' %>
-      </div>
-    </td>
-    <td><%= render 'ship_addresses/form' %></td>
-  </tr>
-</table> -->
-
-
-<br/><br/>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="col-md-6">
-    <div><%= f.label :firstname %><br />
+  <div class="span6">
+    <div><%= f.label :firstname %>
     <%= f.text_field :firstname %></div>
 
-    <div><%= f.label :lastname %><br />
+    <div><%= f.label :lastname %>
     <%= f.text_field :lastname %></div>
 
-    <div><%= f.label :email %><br />
+    <div><%= f.label :email %>
     <%= f.email_field :email %></div>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -45,18 +28,18 @@
     <% end %>
   </div>
 
-  <div>
+  <div class="span6">
     <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
     <%= f.password_field :password, :autocomplete => "off" %></div>
 
-    <div><%= f.label :password_confirmation %><br />
+    <div><%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation %></div>
 
-    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+    <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i>
     <%= f.password_field :current_password %></div>
 
   </div>
-  <div style="margin-top: 50px"><%= f.submit "Update" %></div>
+  <div><%= f.submit "Update" %></div>
 <% end %>
 
 <h3>Cancel my account</h3>

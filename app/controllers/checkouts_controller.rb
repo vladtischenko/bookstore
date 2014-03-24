@@ -16,7 +16,8 @@ class CheckoutsController < ApplicationController
   end
 
   def payment
-    @years =  ['2014', '2015', '2016', '2017', '2018']
+    year = Time.now.year
+    @years =  [year, year + 1, year + 2, year + 3, year + 4]
     @months = ['January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December']
   end

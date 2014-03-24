@@ -4,13 +4,22 @@ class Ability
   def initialize(user)
     user ||= User.new
 
-    can [:update, :destroy], OrderItem, order_id: user.current_order.id
     can :create, OrderItem
-    can :empty, Order
     can :create, Order
     can :create, Rating
-    can [:create, :update], [BillAddress, ShipAddress]
-    can [:create, :update], CreditCard
+    can :create, CreditCard
+    can :create, [BillAddress, ShipAddress]
+
+    can :new, Rating
+    can [:show, :index], Order
+
+    can :update, BillAddress, user_id: user.id
+    can :update, ShipAddress, user_id: user.id
+    can :update, CreditCard, user_id: user.id
+    can [:update, :destroy], OrderItem, order_id: user.current_order.id
+    
+    can :empty, Order, user_id: user.id
+    can :cart, Order, user_id: user.id
 
     # alias_action :create, :update, :destroy, to: :adm_actions
 

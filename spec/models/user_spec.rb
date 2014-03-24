@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'set'
+require "cancan/matchers"
 
 describe User do
   let(:delivery) { FactoryGirl.create :delivery }

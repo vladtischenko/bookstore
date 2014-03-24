@@ -44,8 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def current_order
-    order = self.orders.where("user_id = ? AND state = ?",
-            self, 'in_progress').first_or_create do |order|
+    order = Order.by_user(self).in_progress.first_or_create do |order|
       order.state = 'in_progress'
       order.number = "R#{Time.now.to_i}"
       order.subtotal = 0
@@ -58,24 +57,13 @@ class User < ActiveRecord::Base
   def current_bill_address
     bill_address = BillAddress.where(user_id: self).
                    first_or_create do |address|
-      address.firstname = ""
-      address.lastname = ""
-      address.city = ""
-      address.street = ""
-      address.phone = ""
-      address.zipcode = ""
     end
   end
 
   def current_ship_address
     ship_address = ShipAddress.where(user_id: self).
                    first_or_create do |address|
-      address.firstname = ""
-      address.lastname = ""
-      address.city = ""
-      address.street = ""
-      address.phone = ""
-      address.zipcode = ""
     end
   end
+  
 end

@@ -7,6 +7,10 @@ describe RatingsController do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create :user
     sign_in @user
+
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
   end
 
   let(:book) { FactoryGirl.create :book }
@@ -18,6 +22,7 @@ describe RatingsController do
       Book.stub(:find).and_return(book)
     end
     it "renders new template" do
+      @ability.can :new, Rating
       get :new
       expect(response).to render_template :new
     end
@@ -26,6 +31,7 @@ describe RatingsController do
   context "POST create" do
     before do
       Rating.stub(:new).with(rating_params).and_return(rating)
+      @ability.can :create, Rating
     end
     it "redirect_to book_path if rating created" do
       post :create, id: rating.id, rating: rating_params

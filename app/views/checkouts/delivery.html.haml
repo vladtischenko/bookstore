@@ -1,32 +1,34 @@
 = render 'head'
 
-%div.col-md-8
-  %br
-  = form_tag checkout_set_delivery_path, id: 'delivery' do
-    - @deliveries.each do |delivery|
-      = radio_button_tag :shipping, delivery.id
-      = delivery.text
-      = delivery.price      
-      %br
+.row
+  %div.span8
     %br
-    = submit_tag 'SAVE AND CONTINUE'
+    = form_tag checkout_set_delivery_path, id: 'delivery' do
+      - @deliveries.each do |delivery|
+        = radio_button_tag :shipping, delivery.id
+        = delivery.text
+        = delivery.price      
+        %br
+      %br
+      = submit_tag t(:save_and_continue)
 
-%div
-  %h4 ORDER SUMMARY
-  %table
-    %tr
-      %td
-        ITEM TOTAL: $
-        = current_user.current_order.subtotal.round(2)
-    %tr
-      %td
-        SHIPPING: $
-        %span#shipping_value
-          - if current_user.current_order.delivery
-            = current_user.current_order.delivery.price.round(2)
-          - else
-            0.0
-    %tr
-      %td
-        ORDER TOTAL: $
-        = current_user.current_order.order_total.round(2)
+  %div.span4
+    %h4
+      = t(:order_summary)
+    %table
+      %tr
+        %td
+          = t(:subtotal)
+          = current_user.current_order.subtotal.round(2)
+      %tr
+        %td
+          = t(:shipping)
+          %span#shipping_value
+            - if current_user.current_order.delivery
+              = current_user.current_order.delivery.price.round(2)
+            - else
+              0.0
+      %tr
+        %td
+          = t(:order_total)
+          = current_user.current_order.order_total.round(2)

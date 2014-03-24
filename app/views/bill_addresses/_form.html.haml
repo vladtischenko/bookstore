@@ -24,24 +24,24 @@
     %p
   - else
     %p
-      = f.text_field :firstname, placeholder: 'firstname'
+      = f.text_field :firstname, placeholder: t(:firstname, scope: :address)
       %br
     %p
-      = f.text_field :lastname, placeholder: 'lastname'
+      = f.text_field :lastname, placeholder: t(:lastname, scope: :address)
       %br
     %p
-      = f.text_field :street, placeholder: 'street'
+      = f.text_field :street, placeholder: t(:street, scope: :address)
       %br
     %p
-      = f.text_field :city, placeholder: 'city'
+      = f.text_field :city, placeholder: t(:city, scope: :address)
       %br
     %p
       = select_tag(:country_id, options_from_collection_for_select(Country.all, 'id', 'name'))
     %p 
-      = f.text_field :zipcode, placeholder: 'zipcode'
+      = f.text_field :zipcode, placeholder: t(:zipcode, scope: :address)
       %br
     %p
-      = f.text_field :phone, placeholder: 'phone'
+      = f.text_field :phone, placeholder: t(:phone, scope: :address)
       %br
     %p
-  = f.submit 'SAVE', method: :patch
+  = f.submit t(:save), method: :patch

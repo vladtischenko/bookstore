@@ -21,7 +21,7 @@ feature "User can check status of his recent orders" do
         set_waiting
         visit user_orders_path(@user)
         expect(page).to have_content 'Your shopping cart is empty!!!'
-        expect(page).to have_content 'WAITING FOR PROGRESS'
+        expect(page).to have_content 'WAITING'
       end
       scenario "order in_delivery" do
         set_in_delivery
@@ -43,7 +43,7 @@ feature "User can check status of his recent orders" do
         visit user_orders_path(@user)
         expect(page).not_to have_content 'Your shopping cart is empty!!!'
         expect(page).to have_content 'IN PROGRESS'
-        expect(page).to have_content 'WAITING FOR PROGRESS'
+        expect(page).to have_content 'WAITING'
         expect(page).to have_content 'IN DELIVERY'
         expect(page).to have_content 'DELIVERED'
       end

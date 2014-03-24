@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
-  
+  authorize_resource
+   
   def show
     @order = Order.by_user(current_user).find params[:id]
   end

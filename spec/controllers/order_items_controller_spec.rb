@@ -7,6 +7,10 @@ describe OrderItemsController do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create :user
     sign_in @user
+
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
   end
 
   let(:book) { FactoryGirl.create :book }
@@ -18,6 +22,7 @@ describe OrderItemsController do
   context "POST create" do
     before do
       @user.stub(:current_order).and_return(order)
+      @ability.can :create, OrderItem
     end
     it "redirect_to user_orders_cart_path if order_item was created" do
       post :create, id: order_item.id, order_item: order_item_params
@@ -32,9 +37,10 @@ describe OrderItemsController do
     end
   end
 
-  context "DALETE destroy" do
+  context "DELETE destroy" do
     it "redirect_to user_orders_cart_path(current_user)
         if order_item was destroyed with success notice" do
+      @ability.can :destroy, OrderItem
       delete :destroy, id: order_item.id, order_item: order_item_params
       expect(response).to redirect_to user_orders_cart_path(@user)
       expect(flash[:notice]).to eq "OrderItem was successfully destroyed"

@@ -21,7 +21,6 @@ class BooksController < ApplicationController
 
   def news
     @books = Kaminari.paginate_array(Book.news_five).page(params[:page]).per(1)
-    render 'news'
   end
 
   private

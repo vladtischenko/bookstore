@@ -17,3 +17,5 @@
 
 /public/public/*
 /public/images/*
+
+/config/database.yml

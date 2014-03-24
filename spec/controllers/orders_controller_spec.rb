@@ -7,6 +7,10 @@ describe OrdersController do
     @request.env["devise.mapping"] = Devise.mappings[:user]
     @user = FactoryGirl.create :user
     sign_in @user
+
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
   end
 
   let(:order) { FactoryGirl.create :order }
@@ -17,6 +21,7 @@ describe OrdersController do
     before do
       Order.stub(:by_user).and_return(@user)
       @user.stub(:find).and_return(order)
+      @ability.can :show, Order
     end
     it "renders show template" do
       get :show, id: order.id
@@ -30,6 +35,7 @@ describe OrdersController do
 
   context "GET index" do
     it "renders index template" do
+      @ability.can :index, Order
       get :index
       expect(response).to render_template :index  
     end
@@ -37,6 +43,7 @@ describe OrdersController do
   
   context "GET cart" do
     it "renders cart template" do
+      @ability.can :cart, Order
       get :cart, user_id: @user.id
       expect(response).to render_template :cart
     end
@@ -44,6 +51,7 @@ describe OrdersController do
   
   context "GET empty" do
     it "redirect to root_path" do
+      @ability.can :empty, Order
       get :empty, user_id: @user.id
       expect(response).to redirect_to root_path
     end

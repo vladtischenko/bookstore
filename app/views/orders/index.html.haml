@@ -1,18 +1,21 @@
-%h3 Orders
-
-%div
+%div.table.top
+  %h3 Orders
   - if @order_in_progress.order_items.empty?
     %h4 
-      Your shopping cart is empty!!!
+      = t(:your_shopping_cart_is_empty)
   - else
     %h4 
-      IN PROGRESS
+      = t(:in_progress, scope: [:order, :state])
     %table
       %tr
-        %th BOOK
-        %th PRICE
-        %th QTY
-        %th TOTAL
+        %th
+          = t(:book, scope: [:book, :table])
+        %th
+          = t(:price, scope: [:book, :table])
+        %th
+          = t(:qty, scope: [:book, :table])
+        %th
+          = t(:total, scope: [:book, :table])
 
       - @order_in_progress.order_items.each do |order_item|
         %tr
@@ -39,21 +42,23 @@
         %td{colspan: 3}
           &nbsp;
         %td
-          SUBTOTAL: $ 
+          = t(:subtotal)
           = @order_in_progress.subtotal.round(2)
       %tr
-        %td= link_to 'go to cart', user_orders_cart_path(user_id: current_user)
-%br
+        %td= link_to t(:go_to_cart), user_orders_cart_path(user_id: current_user)
 
-%div
+%div.table
   - unless @orders_waiting.empty?
     %h4
-      WAITING FOR PROGRESS
+      = t(:waiting, scope: [:order, :state])
     %table
       %tr
-        %th NUMBER
-        %th COMPLETED AT
-        %th TOTAL
+        %th
+          = t(:number, scope: [:order, :state])
+        %th
+          = t(:completed_at, scope: [:order, :state])
+        %th
+          = t(:total, scope: [:order, :state])
 
       - @orders_waiting.each do |order|
         %tr
@@ -63,41 +68,48 @@
           -else
             %td admin is checking your order
           %td= order.subtotal
-          %td= link_to 'view', order_path(order)
+          %td= link_to t(:view), order_path(order)
 %br
 
-%div
+%div.table
   - unless @orders_in_delivery.empty?
     %h4
-      IN DELIVERY
+      = t(:in_delivery, scope: [:order, :state])
     %table
       %tr
-        %th NUMBER
-        %th COMPLETED AT
-        %th TOTAL
+        %th
+          = t(:number, scope: [:order, :state])
+        %th
+          = t(:completed_at, scope: [:order, :state])
+        %th
+          = t(:total, scope: [:order, :state])
 
       - @orders_in_delivery.each do |order|
         %tr
           %td= link_to order.number, order_path(order)
           %td= order.completed_at
           %td= order.subtotal
-          %td= link_to 'view', order_path(order)
+          %td= link_to t(:view), order_path(order)
 %br
 
-%div
+%div.table
   - unless @orders_delivered.empty?
     %h4
-      DELIVERED
+      = t(:delivered, scope: [:order, :state])
     %table
       %tr
-        %th NUMBER
-        %th COMPLETED AT
-        %th TOTAL
+        %tr
+        %th
+          = t(:number, scope: [:order, :state])
+        %th
+          = t(:completed_at, scope: [:order, :state])
+        %th
+          = t(:total, scope: [:order, :state])
 
       - @orders_delivered.each do |order|
         %tr
           %td= link_to order.number, order_path(order)
           %td= order.completed_at
           %td= order.subtotal
-          %td= link_to 'view', order_path(order)
+          %td= link_to t(:view), order_path(order)
 %br

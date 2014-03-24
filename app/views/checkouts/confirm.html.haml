@@ -1,14 +1,13 @@
 = render 'head'
 
-%h4 CONFIRM
+%h4
+  = t(:confirm)
 
-%div
-  %div.col-md-3
+%div.row
+  %div.span3
     %b
-      Shipping address 
-    = link_to 'edit', checkout_address_path
-    |
-    %br
+      = t(:shipping_address) 
+    = link_to t(:edit), checkout_address_path
     %br
     = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
     %br
@@ -19,15 +18,13 @@
     %br
     = current_user.ship_address.country.name
     %br
-    Phone
+    = t(:phone)
     = current_user.ship_address.phone
 
-  %div.col-md-3
+  %div.span3
     %b
-      Billing address
-    = link_to 'edit', checkout_address_path
-    |
-    %br
+      = t(:billing_address)
+    = link_to t(:edit), checkout_address_path
     %br    
     = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
     %br
@@ -38,24 +35,21 @@
     %br
     = current_user.bill_address.country.name
     %br
-    Phone
+    = t(:phone)
     = current_user.bill_address.phone
 
-  %div.col-md-3
+  %div.span3
     %b
-      Sipments
-    = link_to 'edit', checkout_delivery_path
-    |
-    %br
+      = t(:shipments)
+    = link_to t(:edit), checkout_delivery_path
     %br
     = current_user.current_order.delivery.text
     = current_user.current_order.delivery.price
 
-  %div.col-md-3
+  %div.span3
     %b
-      Payment information
-    = link_to 'edit', checkout_payment_path
-    %br
+      = t(:payment_info)
+    = link_to t(:edit), checkout_payment_path
     %br
     -if current_user.credit_card
       = current_user.credit_card.card_number
@@ -63,16 +57,20 @@
       = current_user.credit_card.expiration_month
       = current_user.credit_card.expiration_year
     -else
-      Fill your credit card information!!!
+      = t(:set_addresses_payment_delivery, scope: :fail)
 
 
-%div{style:"margin-top:200px"}
+%div.table
   %table
     %tr
-      %th BOOK
-      %th PRICE
-      %th QTY
-      %th TOTAL
+      %th
+        = t(:book, scope: [:book, :table])
+      %th
+        = t(:price, scope: [:book, :table])
+      %th
+        = t(:qty, scope: [:book, :table])
+      %th
+        = t(:total, scope: [:book, :table])
 
     - current_user.current_order.order_items.each do |order_item|
       %tr
@@ -101,21 +99,22 @@
   %table
     %tr
       %td{colspan: 3}
-        SUBTOTAL: $
+        = t(:subtotal)
         %b
           = current_user.current_order.subtotal.round(2)
     %tr
       %td{colspan: 3}
-        SHIPPING: $
+        = t(:shipping)
         %b
           = current_user.current_order.delivery.price.round(2)
     %tr
       %td{colspan: 3}
-        ORDER TOTAL: $
+        = t(:order_total)
         %b
           = current_user.current_order.order_total.round(2)
 %br
 %br
 
 = link_to checkout_set_complete_path do 
-  %button PLACE ORDER
+  %button
+    = t(:place_order)

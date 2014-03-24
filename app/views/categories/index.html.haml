@@ -1,29 +1,30 @@
-= link_to '<< shop', books_path, {style:"margin-left: 170px"}
+= link_to t(:shop), books_path, id: 'shop'
 
-%h3{style:"margin-left: 170px"} 
+%h3#title
   = @category.title
 
-%div.col-md-8
-  %div.container_book
-    %ul
-      - @books.each do |book|
-        %li
-          = link_to book_path(book) do
-            = image_tag(book.picture_url, :width => 100) if book.picture.present?
-          %br
-          = link_to book.title, book_path(book)
-          %br
-          $
-          = book.price
-          %br
-          %br
+.row
+  %div.span8
+    %div.container_book
+      %ul
+        - @books.each do |book|
+          %li
+            = link_to book_path(book) do
+              = image_tag(book.picture_url, :width => 100) if book.picture.present?
+            %br
+            = link_to book.title, book_path(book)
+            %br
+            $
+            = book.price
+            %br
+            %br
 
-    %div{style:"margin-left: 150px"}
-      = paginate @books, window: 2  
+      %div
+        = paginate @books, window: 2  
 
-%div
-  SHOP BY CATEGORIES
-  %br
-  - @categories.each do |category|
-    = link_to category.title, category_books_path(category)
+  %div
+    = t(:show_by_categories)
     %br
+    - @categories.each do |category|
+      = link_to category.title, category_books_path(category)
+      %br

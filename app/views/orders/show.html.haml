@@ -1,19 +1,23 @@
 %div
-  = link_to '<< Back to orders', orders_path
+  = link_to t(:back_to_orders), orders_path
   %br
   %h3
-    Order
+    = t(:name, scope: :order)
     = @order.number
-    %span{style: "color: grey"}
+    %span.order-state
       = @order.state
 %br
 
-%table
+%table.table.top
   %tr
-    %th BOOK
-    %th PRICE
-    %th QTY
-    %th TOTAL
+    %th
+      = t(:book, scope: [:book, :table])
+    %th
+      = t(:price, scope: [:book, :table])
+    %th
+      = t(:qty, scope: [:book, :table])
+    %th
+      = t(:total, scope: [:book, :table])
 
   - @order.order_items.each do |order_item|
     %tr
@@ -41,16 +45,16 @@
   %table
     %tr
       %td{colspan: 3}
-        SUBTOTAL: $
+        = t(:subtotal)
         %b
           = @order.subtotal
     %tr
       %td{colspan: 3}
-        SHIPPING: $
+        = t(:shipping)
         %b
-          = @order.shipping
+          = @order.delivery.price
     %tr
       %td{colspan: 3}
-        ORDER TOTAL: $
+        = t(:order_total)
         %b
           = @order.order_total

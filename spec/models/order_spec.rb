@@ -42,11 +42,25 @@ describe Order do
       end
     end
 
+    context "in_progress" do
+      before do
+        @orders = FactoryGirl.create_list :order, 5, state: 'in_progress', delivery: delivery
+      end
+      it "return orders where state in_progress" do
+        expect(Order.in_progress).to match_array @orders
+      end
+      it "doesn't return order if state not eq in_progress" do
+        order = FactoryGirl.create :order, delivery: delivery, state: 'waiting'
+        @orders << order
+        expect(Order.in_progress).not_to match_array @orders
+      end
+    end
+
     context "waiting" do
       before do
         @orders = FactoryGirl.create_list :order, 5, state: 'waiting', delivery: delivery
       end
-      it "return orders where state eq waiting" do
+      it "return orders where state waiting" do
         expect(Order.waiting).to match_array @orders
       end
       it "doesn't return order if state not eq waiting" do
@@ -60,7 +74,7 @@ describe Order do
       before do
         @orders = FactoryGirl.create_list :order, 5, state: 'in_delivery', delivery: delivery
       end
-      it "return orders where state eq in_delivery" do
+      it "return orders where state in_delivery" do
         expect(Order.in_delivery).to match_array @orders
       end
       it "doesn't return order if state not eq in_delivery" do
@@ -74,7 +88,7 @@ describe Order do
       before do
         @orders = FactoryGirl.create_list :order, 5, state: 'delivered', delivery: delivery
       end
-      it "return orders where state eq delivered" do
+      it "return orders where state delivered" do
         expect(Order.delivered).to match_array @orders
       end
       it "doesn't return order if state not eq delivered" do
