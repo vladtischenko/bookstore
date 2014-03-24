@@ -1,0 +1,127 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+
+  need_to_save: "need to save"
+  are_you_sure?: "Are you sure?"
+  what_is_it: "(What is it?)"
+  your_shopping_cart_is_empty: "Your shopping cart is empty!!!"
+
+  add: "add"
+  cancel: "cancel"
+  shop: "<< shop"
+  back: "<< back"
+  back_to_orders: "<< Back to orders"
+  edit: "edit"
+  view: "view"
+  add_to_cart: "add to cart"
+  empty_cart: "empty cart"
+  go_to_cart: "go to cart"
+  continue_shopping: "continue shopping"
+  phone: "Phone"
+  go_back_to_store: "GO BACK TO STORE"
+  save: "SAVE"
+  update: "update"
+  subtotal: "SUBTOTAL"
+  shipping: "SHIPPING"
+  order_summary: "ORDER SUMMARY"
+  item_total: "ITEM TOTAL"
+  order_total: "ORDER TOTAL"
+  billing_address: "BILLING ADDRESS"
+  shipping_address: "SHIPPING ADDRESS"
+  save_and_continue: "SAVE AND CONTINUE"
+  show_by_categories: "SHOP BY CATEGORIES"
+  anonym: "anonym"
+  use_ship_address: "Use Bill Address"
+  place_order: "PLACE ORDER"
+
+  order:
+    name: "Order"
+    table:
+      number: "NUMBER"
+      completed_at: "COMPLETED AT"
+      total: "TOTAL"
+    state:
+      in_progress: "IN PROGRESS"
+      waiting: "WAITING"
+      in_delivery: "IN DELIVERY"
+      delivered: "DELIVERED"
+
+  shipments: "SHIPMENTS"
+  payment_info: "PAYMENT INFORMATION"
+  confirm: "CONFIRM"
+
+  credit_card: 
+    name: "CREDIT CARD"
+    expiration_date: "Expiration date:"
+    card_code: "Card Code"
+    card_number: "Card Number"
+
+  date:
+    month: "month"
+    year: "year"
+
+  address:
+    firstname: "firstname"
+    lastname: "lastname"
+    street: "street"
+    city: "city"
+    phone: "phone"
+    zipcode: "zipcode"
+
+  checkout:
+    name: "checkout"
+    address: "ADDRESS"
+    delivery: "DELIVERY"
+    payment: "PAYMENT"
+    confirm: "CONFIRM"
+    complete: "COMPLETE"
+
+  review:
+    not_verify_by_admin_yet: "review is not verify by admin yet"
+    add_review_for_book: "add review for %{title}"
+    new_review_for: "New review for"
+
+  book:
+    reviews: "Reviews"
+    table:
+      book: "BOOK"
+      price: "PRICE"
+      qty: "QTY"
+      total: "TOTAL"
+
+  hello: "Hello world"
+
+  success:
+    created: "%{obj} was successfully created"
+    updated: "%{obj} was successfully updated"
+    destroyed: "%{obj} was successfully destroyed"
+
+  fail:
+    created: "%{obj} wasn't created"
+    updated: "%{obj} wasn't updated"
+    destroyed: "%{obj} wasn't destroyed"
+    error: "Ann error has occurred"
+    empty_field: "Some field is empty!"
+    saved: "%{obj} wasn't saved"
+    fill_credit_cart_info: "Fill your credit card information!!!"
+    set_addresses_payment_delivery: "Set addresses, payment and delivery!"

@@ -1,0 +1,52 @@
+%p#notice= notice
+
+.row
+  %div.span8
+    %div
+      = @book.title
+    %div.floating-left
+      = image_tag(@book.picture_url, :width => 100) if @book.picture.present?
+    %table
+      %tr
+        %td
+          $
+          = @book.price
+        %td
+          = form_for oi = OrderItem.new do |f|
+            = f.number_field :quantity, min: 1, max: 10, value: 1, class: 'adds'
+            = f.hidden_field :book_id, value: @book.id
+            -if current_user
+              = f.hidden_field :order_id, value: current_user.current_order.id
+            = f.hidden_field :price, value: @book.price
+            = f.submit t(:add_to_cart)
+      %tr
+        %td
+          %div
+            = @book.description
+
+  %div.span4
+    %div.floating-left
+      = t(:reviews, scope: [:book])
+    %div 
+      = link_to t(:add_review_for_book, scope: :review, title: @book.title), new_book_rating_path(@book)
+
+    %br
+
+    - @book.ratings.each do |rating|
+      - if rating.allow
+        %table
+          %tr
+            %td= rating.rate
+            %td= rating.title
+            %td= rating.created_at.asctime
+        %div
+          by
+          -if rating.user
+            = rating.user
+          -else
+            = t(:anonym)
+        %div
+          = rating.text
+      - else 
+        = t(:not_verify_by_admin_yet, scope: [:review])
+      %br

@@ -1,0 +1,11 @@
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li= link_to t(:address, scope: :checkout), checkout_address_path
+    %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    %li= link_to t(:payment, scope: :checkout), checkout_payment_path
+    %li= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    %li= link_to t(:complete, scope: :checkout), checkout_complete_path
+
+%br
