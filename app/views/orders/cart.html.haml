@@ -1,0 +1,51 @@
+- if @order.order_items.empty?
+  %h4 
+    = t(:your_shopping_cart_is_empty)
+- else
+  .table.top
+    = form_for @order do |f|
+      %table
+        %tr
+          %th
+            = t(:book, scope: [:book, :table])
+          %th
+            = t(:price, scope: [:book, :table])
+          %th
+            = t(:qty, scope: [:book, :table])
+          %th
+            = t(:total, scope: [:book, :table])
+
+        - @order.order_items.each do |order_item|
+          %tr
+            %td
+              %table
+                %tr
+                  %td
+                    = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
+                  %td
+                    %table
+                      %tr
+                        %td= order_item.book.title
+                      %tr
+                        %td= order_item.book.short_description
+            %td
+              $
+              = order_item.book.price
+            -# %td= oi.number_field :quantity, min:1, max: 10
+            %td= order_item.quantity
+            %td
+              $
+              = order_item.total
+            %td= link_to 'x', order_item_path(order_item), id: "#{order_item.id}_delete", method: :delete
+
+        %tr
+          %td{colspan: 3}
+            &nbsp;
+          %td
+            = t(:subtotal)
+            = @order.subtotal.round(2)
+        %tr
+          %td= link_to t(:empty_cart), empty_cart_path, data: { confirm: t(:are_you_sure?) }
+          %td= link_to t(:continue_shopping), books_path
+          %td= f.submit t(:update)
+          %td= link_to t(:name, scope: :checkout), checkout_address_path

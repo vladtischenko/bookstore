@@ -1,0 +1,122 @@
+= render 'head'
+
+.row
+  = form_tag checkout_set_addresses_path, id: 'addresses' do
+    %div.span4
+      %h4
+        = t(:billing_address)
+      - if current_user.bill_address
+        %p
+          = text_field_tag :b_firstname, current_user.bill_address.firstname
+          %br
+        %p
+          = text_field_tag :b_lastname, current_user.bill_address.lastname
+          %br
+        %p
+          = text_field_tag :b_street, current_user.bill_address.street
+          %br
+        %p
+          = text_field_tag :b_city, current_user.bill_address.city
+          %br
+        %p
+          = collection_select :b_country_id, :country_id, Country.all, :id, :name
+          %br
+        %p
+          = text_field_tag :b_zipcode, current_user.bill_address.zipcode
+          %br
+        %p
+          = text_field_tag :b_phone, current_user.bill_address.phone
+          %br
+          %br
+
+      - else
+        %p
+          = text_field_tag :b_firstname, nil,  placeholder: t(:firstname, scope: :address)
+          %br
+        %p
+          = text_field_tag :b_lastname, nil, placeholder: t(:lastname, scope: :address)
+          %br
+        %p
+          = text_field_tag :b_street, nil, placeholder: t(:street, scope: :address)
+          %br
+        %p
+          = text_field_tag :b_city, nil, placeholder: t(:city, scope: :address)
+          %br
+        %p
+          = collection_select :b_country_id, :country_id, Country.all, :id, :name
+          %br
+        %p
+          = text_field_tag :b_zipcode, nil, placeholder: t(:zipcode, scope: :address)
+          %br
+        %p
+          = text_field_tag :b_phone, nil, placeholder: t(:phone, scope: :address)
+          %br
+          %br
+      = submit_tag t(:save_and_continue)
+
+    %div.span4
+      %h4
+        = t(:shipping_address)    
+      = check_box_tag 'ship_as_bill'
+      = t(:use_bill_address)
+      %div#ship_block
+        - if current_user.ship_address
+          %p
+            = text_field_tag :s_firstname, current_user.ship_address.firstname
+            %br
+          %p
+            = text_field_tag :s_lastname, current_user.ship_address.lastname
+            %br
+          %p
+            = text_field_tag :s_street, current_user.ship_address.street
+            %br
+          %p
+            = text_field_tag :s_city, current_user.ship_address.city
+            %br
+          %p
+            = collection_select :s_country_id, :country_id, Country.all, :id, :name
+            %br
+          %p
+            = text_field_tag :s_zipcode, current_user.ship_address.zipcode
+            %br
+          %p
+            = text_field_tag :s_phone, current_user.ship_address.phone
+            %br
+            %br
+
+        - else
+          %p
+            = text_field_tag :s_firstname, nil, placeholder: t(:firstname, scope: :address)
+            %br
+          %p
+            = text_field_tag :s_lastname, nil, placeholder: t(:lastname, scope: :address)
+            %br
+          %p
+            = text_field_tag :s_street, nil, placeholder: t(:street, scope: :address)
+            %br
+          %p
+            = text_field_tag :s_city, nil, placeholder: t(:city, scope: :address)
+            %br
+          %p
+            = collection_select :s_country_id, :country_id, Country.all, :id, :name
+            %br
+          %p
+            = text_field_tag :s_zipcode, nil, placeholder: t(:zipcode, scope: :address)
+            %br
+          %p
+            = text_field_tag :s_phone, nil, placeholder: t(:phone, scope: :address)
+            %br
+            %br
+
+  %div.span4
+    %h4
+      = t(:order_summary)
+    %table
+      %tr
+        %td
+          = t(:item_total)
+          = current_user.current_order.subtotal.round(2)
+      %tr
+        %td
+          = t(:order_total)
+          = current_user.current_order.order_total.round(2)

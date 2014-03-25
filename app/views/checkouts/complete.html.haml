@@ -1,0 +1,120 @@
+-if @order and current_user.bill_address and current_user.ship_address
+  %h4
+    = t(:name, scope: :order)
+    = @order.number
+  %div.row
+    %div.span3
+      %b
+        = t(:shipping_address) 
+      %br
+      = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
+      %br
+      = current_user.ship_address.street
+      %br
+      = current_user.ship_address.city
+      = current_user.ship_address.zipcode
+      %br
+      = current_user.ship_address.country.name
+      %br
+      = t(:phone)
+      = current_user.ship_address.phone
+
+    %div.span3
+      %b
+        = t(:billing_address)
+      %br    
+      = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
+      %br
+      = current_user.bill_address.street
+      %br
+      = current_user.bill_address.city
+      = current_user.bill_address.zipcode
+      %br
+      = current_user.bill_address.country.name
+      %br
+      = t(:phone)
+      = current_user.bill_address.phone
+
+    %div.span3
+      %b
+        = t(:shipments)
+      %br
+      = @order.delivery
+
+    %div.span3
+      %b
+        = t(:payment_info)
+      %br
+      -if current_user.credit_card
+        = current_user.credit_card.card_number
+        %br
+        = current_user.credit_card.expiration_month
+        = current_user.credit_card.expiration_year
+      -else
+        = t(:fill_credit_cart_info, scope: :fail)
+
+  
+  %div.table
+    %table
+      %tr
+        %th
+          = t(:book, scope: [:book, :table])
+        %th
+          = t(:price, scope: [:book, :table])
+        %th
+          = t(:qty, scope: [:book, :table])
+        %th
+          = t(:total, scope: [:book, :table])
+
+      - @order.order_items.each do |order_item|
+        %tr
+          %td
+            %table
+              %tr
+                %td
+                  = image_tag(order_item.book.picture_url, :width => 100) if order_item.book.picture.present?
+                %td
+                  %table
+                    %tr
+                      %td= order_item.book.title
+                    %tr
+                      %td= order_item.book.short_description
+          %td
+            $
+            = order_item.book.price
+          %td= order_item.quantity
+          %td
+            $
+            = order_item.total
+  %br
+
+  %div
+    %table
+      %tr
+        %td{colspan: 3}
+          = t(:subtotal)
+          %b
+            = @order.subtotal.round(2)
+      %tr
+        %td{colspan: 3}
+          = t(:shipping)
+          %b
+            -if @order.delivery
+              = @order.delivery.price.round(2)
+      %tr
+        %td{colspan: 3}
+          = t(:order_total)
+          %b
+            = @order.order_total.round(2)
+  %br
+  %br
+
+  = link_to books_path do 
+    %button
+      = t(:go_back_to_store)
+
+-else
+  %h4
+    = t(:set_addresses_payment_delivery)
+  %br
+  = link_to t(:back), :back
