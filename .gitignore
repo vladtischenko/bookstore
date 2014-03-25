@@ -13,10 +13,10 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
-/tmp
+/tmp/*
 
 /public/public/*
 /public/images/*
 
 /config/database.yml
-/.sass-cache
+/.sass-cache/*
