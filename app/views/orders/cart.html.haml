@@ -47,5 +47,5 @@
         %tr
           %td= link_to t(:empty_cart), empty_cart_path, data: { confirm: t(:are_you_sure?) }
           %td= link_to t(:continue_shopping), books_path
-          %td= f.submit t(:update)
+          %td
           %td= link_to t(:name, scope: :checkout), checkout_address_path
