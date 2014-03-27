@@ -14,6 +14,8 @@ ActiveAdmin.register OrderItem do
   #  permitted
   # end
 
+  belongs_to :order
+
   permit_params :quantity, :order_id, :book_id, :price
 
 end

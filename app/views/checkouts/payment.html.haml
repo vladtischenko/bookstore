@@ -29,7 +29,6 @@
           %br
         %p
           = f.label t(:expiration_date, scope: :credit_card)
-          %br
         %p
           = f.select :expiration_month, options_for_select(@months, t(:month, scope: :date))
           %br

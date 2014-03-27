@@ -5,6 +5,8 @@ gem 'rails', '4.0.2'
 
 # Use sqlite3 as the database for Active Record
 
+# ruby "2.0.0"
+
 gem 'pg'
 
 gem 'kaminari'
@@ -15,13 +17,13 @@ gem 'haml-rails'
 
 gem 'cancan'
 
-gem 'devise' # for accunts
+gem 'devise'
 
-gem 'carrierwave' # image uploader
+gem 'carrierwave'
 
-gem "mini_magick" # format image
+gem "mini_magick"
 
-gem 'activeadmin', github: 'gregbell/active_admin' # admin panel
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 gem 'twitter-bootstrap-rails'
 
@@ -98,3 +100,5 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+gem 'rails_12factor', group: :production
