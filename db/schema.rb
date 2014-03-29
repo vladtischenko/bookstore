@@ -144,9 +144,9 @@ ActiveRecord::Schema.define(version: 20140325153058) do
   add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
 
   create_table "orders", force: true do |t|
-    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
     t.integer  "order_item_id"
     t.float    "subtotal"
     t.string   "state"
