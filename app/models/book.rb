@@ -1,7 +1,7 @@
 require 'carrierwave/orm/activerecord'
 
 class Book < ActiveRecord::Base
-  # mount_uploader :picture, PictureUploader
+  mount_uploader :picture, PictureUploader
 
   has_many :ratings, dependent: :destroy
   belongs_to :category
