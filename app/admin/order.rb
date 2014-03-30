@@ -21,7 +21,6 @@ ActiveAdmin.register Order do
       order.order_items.each do |order_item|
         li link_to order_item.book.title, admin_book_path(order_item.book)
       end
-      # li link_to("OrderItems", admin_order_order_items(order))
     end
   end
 

@@ -16,6 +16,6 @@ ActiveAdmin.register OrderItem do
 
   belongs_to :order
 
-  permit_params :quantity, :order_id, :book_id, :price
+  # permit_params :quantity, :order_id, :book_id, :price
 
 end

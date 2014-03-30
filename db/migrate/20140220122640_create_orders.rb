@@ -9,6 +9,5 @@ class CreateOrders < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_reference :orders, :user, index: true
   end
 end
