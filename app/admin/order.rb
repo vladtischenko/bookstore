@@ -20,6 +20,7 @@ ActiveAdmin.register Order do
     ul do
       order.order_items.each do |order_item|
         li link_to order_item.book.title, admin_book_path(order_item.book)
+        li order_item.quantity
       end
     end
   end
