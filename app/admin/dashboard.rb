@@ -20,6 +20,15 @@ ActiveAdmin.register_page "Dashboard" do
           end
         end
       end
+      column do
+        panel "Not allowed ratings" do
+          ul do
+            Rating.not_allowed.each do |rating|
+              li link_to(rating.title, admin_rating_path(rating))
+            end
+          end
+        end
+      end
     end
 
     # Here is an example of a simple dashboard with columns and panels.
