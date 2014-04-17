@@ -5,40 +5,36 @@
   %div.span6
     - @books.each do |book|
       %div
-        %div
-          %table
-            %tr
-              %td
-                = link_to book.title, book_path(book)
-              %td
-                By
-                = book.author
-                -# = link_to book.author#, author_path(book.author)
-        %div
-          %table
-            %tr
-              %td
-                = link_to book_path(book), id: "#{book.id}_img" do
-                  = image_tag(book.picture_url, :width => 700) if book.picture.present?
-              %td= book.description
-            %tr
-              %td
-              %td 
-                %table
-                  %tr
-                    %td
-                      $
-                      = book.price
-                    %td
-                      = form_for oi = OrderItem.new do |f|
-                        = f.hidden_field :book_id, value: book.id
-                        = f.number_field :quantity, min: 1, max: 10, value: 1, class: 'adds'
-                        - if current_user
-                          = f.hidden_field :order_id, value: current_user.current_order.id
-                        = f.hidden_field :price, value: book.price
-                        = f.submit t(:add_to_cart)
-                %br
-                %br
+        .bottom-margin
+          %span.right-margin
+            %b.title-book= link_to book.title, book_path(book)
+          %span
+            by
+          %span
+            %b= book.author
+          
+        .row
+          .span2
+            = link_to book_path(book), id: "#{book.id}_img" do
+              = image_tag(book.picture_url, :width => 700) if book.picture.present? 
+          .span4
+            = book.description
+        
+        .row
+          .span2
+          .span4
+            %div.floating-left.right-margin
+              %b.price-book
+                $
+                = book.price
+            %span
+              = form_for oi = OrderItem.new do |f|
+                = f.hidden_field :book_id, value: book.id
+                = f.number_field :quantity, min: 1, max: 10, value: 1, class: 'adds'
+                - if current_user
+                  = f.hidden_field :order_id, value: current_user.current_order.id
+                = f.hidden_field :price, value: book.price
+                = f.submit t(:add_to_cart), class: 'btn'  
 
   %div.span3
     = link_to rel:'next' do

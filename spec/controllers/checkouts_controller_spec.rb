@@ -11,7 +11,7 @@ describe CheckoutsController do
 
   context "GET address" do
     it "renders address template" do
-      get :address
+      get :addresses
       expect(response).to render_template :address
     end
   end

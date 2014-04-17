@@ -1,6 +1,7 @@
 class Order < ActiveRecord::Base
   has_many :order_items, dependent: :destroy
   has_one :delivery
+  has_one :coupon
   belongs_to :user
   validates :state, :number, presence: true
   validates :subtotal, numericality: true
@@ -20,6 +21,14 @@ class Order < ActiveRecord::Base
       subtotal: self.subtotal, order_total: self.order_total, delivery_id: self.delivery_id}
   end
 
+  def for_session
+    self.state = 'not_authorized'
+    self.number = "R#{Time.new.to_i}"
+    self.subtotal = 0
+    self.order_total = 0
+    self
+  end
+
   def set_total
     self.subtotal = 0
     self.order_items.each do |item|
@@ -27,6 +36,7 @@ class Order < ActiveRecord::Base
     end
     self.order_total = self.subtotal 
     self.order_total += self.delivery.price if self.delivery
+    self.order_total -= self.coupon.price if self.coupon
     self
   end
 
@@ -40,7 +50,6 @@ class Order < ActiveRecord::Base
     self.order_items.clear
     self.subtotal = 0
     self.order_total = 0
-    # self.shipping = 0
     self.delivery = nil
   end
 end

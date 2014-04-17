@@ -1,4 +1,29 @@
-= render 'head'
+#credit_card_errors
+
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li= link_to t(:address, scope: :checkout), addresses_path
+    
+    -if current_user.current_order.delivery
+      %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    -else
+      %li= t(:delivery, scope: :checkout)
+    
+    -if current_user.credit_card
+      %li.current-link= link_to t(:payment, scope: :checkout), checkout_payment_path
+    -else
+      %li.current-link= t(:payment, scope: :checkout)
+
+    -if current_user.current_order.delivery and current_user.credit_card
+      %li= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    -else
+      %li= t(:confirm, scope: :checkout)
+    
+    %li= t(:complete, scope: :checkout)
+
+%br
 
 .row
   %div.span8
@@ -7,25 +32,29 @@
     -if current_user.credit_card
       = form_for current_user.credit_card do |f|
         %p
-          = f.text_field :card_number, value: current_user.credit_card.card_number
+          = f.text_field :card_number, :maxlength => "16", id: 'card_number_id', value: current_user.credit_card.card_number
+          %span#card_number.errors
         %p
           = f.label t(:expiration_date, scope: :credit_card)
         %p
           = f.select :expiration_month, options_for_select(@months), selected: current_user.credit_card.expiration_month
           %br
           = f.select :expiration_year, options_for_select(@years), selected: current_user.credit_card.expiration_year
+          %span#exp_date.errors
           %br
         %p
-          = f.password_field :code, placeholder: t(:card_code, scope: :credit_card)
+          = f.text_field :code, id: 'cvv_id', :maxlength => "3", placeholder: t(:card_code, scope: :credit_card)
           = link_to t(:what_is_it), 'http://en.wikipedia.org/wiki/Card_security_code'
           = f.hidden_field :user_id, value: current_user.id
+          %span#cvv_code.errors
           %br
         %p  
-          = f.submit t(:save_and_continue)
+          = f.submit t(:save_and_continue), class: 'btn'
     -else
       = form_for CreditCard.new do |f|
         %p
-          = f.text_field :card_number, placeholder: t(:card_number, scope: :credit_card)
+          = f.text_field :card_number, :maxlength => "16", id: 'card_number_id', placeholder: t(:card_number, scope: :credit_card)
+          %span#card_number.errors
           %br
         %p
           = f.label t(:expiration_date, scope: :credit_card)
@@ -33,14 +62,16 @@
           = f.select :expiration_month, options_for_select(@months, t(:month, scope: :date))
           %br
           = f.select :expiration_year, options_for_select(@years, t(:year, scope: :date))
+          %span#exp_date.errors
           %br
         %p
-          = f.password_field :code, placeholder: t(:card_code, scope: :credit_card)
+          = f.text_field :code, id: 'cvv_id', :maxlength => "3", placeholder: t(:card_code, scope: :credit_card)
           = link_to t(:what_is_it), 'http://en.wikipedia.org/wiki/Card_security_code'
           = f.hidden_field :user_id, value: current_user.id
+          %span#cvv_code.errors
           %br
         %p  
-          = f.submit t(:save_and_continue)
+          = f.submit t(:save_and_continue), class: 'btn'
     
   %div
     %h4

@@ -1,4 +1,27 @@
-= render 'head'
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li= link_to t(:address, scope: :checkout), addresses_path
+    
+    -if current_user.current_order.delivery
+      %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    -else
+      %li= t(:delivery, scope: :checkout)
+    
+    -if current_user.credit_card
+      %li= link_to t(:payment, scope: :checkout), checkout_payment_path
+    -else
+      %li= t(:payment, scope: :checkout)
+
+    -if current_user.current_order.delivery and current_user.credit_card
+      %li.current-link= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    -else
+      %li.current-link= t(:confirm, scope: :checkout)
+    
+    %li= t(:complete, scope: :checkout)
+
+%br
 
 %h4
   = t(:confirm)
@@ -7,7 +30,7 @@
   %div.span3
     %b
       = t(:shipping_address) 
-    = link_to t(:edit), checkout_address_path
+    = link_to t(:edit), addresses_path
     %br
     = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
     %br
@@ -24,7 +47,7 @@
   %div.span3
     %b
       = t(:billing_address)
-    = link_to t(:edit), checkout_address_path
+    = link_to t(:edit), addresses_path
     %br    
     = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
     %br
@@ -116,5 +139,5 @@
 %br
 
 = link_to checkout_set_complete_path do 
-  %button
+  %button.btn
     = t(:place_order)

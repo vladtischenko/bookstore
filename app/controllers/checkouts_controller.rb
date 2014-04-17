@@ -1,6 +1,21 @@
 class CheckoutsController < ApplicationController
-  def address; end
   def complete; end
+  
+  def addresses
+    render 'address'
+  end
+
+  def address
+    unless params[:code].empty?
+      coupon = Coupon.find_by_code params[:code]
+      if coupon
+        current_user.current_order.coupon = coupon
+      else
+        redirect_to :back, notice: t(:not_found, scope: :fail, obj: Coupon.to_s)
+      end      
+    end
+  end
+  
   
   def delivery
     @deliveries = Delivery.by_price

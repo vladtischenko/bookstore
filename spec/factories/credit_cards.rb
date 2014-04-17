@@ -5,7 +5,7 @@ FactoryGirl.define do
     card_number "1236325897121025"
     expiration_month "april"
     expiration_year 2015
-    code "0159"
+    code "015"
     user 1
   end
 end

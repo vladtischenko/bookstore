@@ -25,17 +25,20 @@
                   %td
                     %table
                       %tr
-                        %td= order_item.book.title
+                        %td
+                          %b= order_item.book.title
                       %tr
                         %td= order_item.book.short_description
             %td
-              $
-              = order_item.book.price
+              %b
+                $
+                = order_item.book.price
             -# %td= oi.number_field :quantity, min:1, max: 10
             %td= order_item.quantity
             %td
-              $
-              = order_item.total
+              %b
+                $
+                = order_item.total
             %td= link_to 'x', order_item_path(order_item), id: "#{order_item.id}_delete", method: :delete
 
         %tr
@@ -43,9 +46,21 @@
             &nbsp;
           %td
             = t(:subtotal)
-            = @order.subtotal.round(2)
-        %tr
-          %td= link_to t(:empty_cart), empty_cart_path, data: { confirm: t(:are_you_sure?) }
-          %td= link_to t(:continue_shopping), books_path
-          %td
-          %td= link_to t(:name, scope: :checkout), checkout_address_path
+            %b= @order.subtotal.round(2)
+
+  .row
+    = form_tag checkout_address_path do
+      .span2
+        -if current_user
+          = link_to empty_cart_path, data: { confirm: t(:are_you_sure?) } do
+            %button.btn= t(:empty_cart)
+        -else
+          = link_to empty_session_cart_path, data: { confirm: t(:are_you_sure?) } do
+            %button.btn= t(:empty_cart)
+      .span6
+        = link_to books_path do
+          %button.btn= t(:continue_shopping)
+      .span3
+        = text_field_tag :code, nil, placeholder: 'Coupon code'
+      .span1
+        = submit_tag t(:name, scope: :checkout), class: 'btn'

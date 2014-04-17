@@ -1,16 +1,42 @@
-= render 'head'
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li= link_to t(:address, scope: :checkout), addresses_path
+    
+    -if current_user.current_order.delivery
+      %li.current-link= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    -else
+      %li.current-link= t(:delivery, scope: :checkout)
+    
+    -if current_user.credit_card
+      %li= link_to t(:payment, scope: :checkout), checkout_payment_path
+    -else
+      %li= t(:payment, scope: :checkout)
+
+    -if current_user.current_order.delivery and current_user.credit_card
+      %li= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    -else
+      %li= t(:confirm, scope: :checkout)
+    
+    %li= t(:complete, scope: :checkout)
+
+%br
 
 .row
   %div.span8
     %br
     = form_tag checkout_set_delivery_path, id: 'delivery' do
       - @deliveries.each do |delivery|
-        = radio_button_tag :shipping, delivery.id
+        -if current_user.current_order.coupon
+          = radio_button_tag :shipping, delivery.id, false, :'data-price' => delivery.price, :'data-coupon' => current_user.current_order.coupon.price
+        -else
+          = radio_button_tag :shipping, delivery.id, false, :'data-price' => delivery.price  
         = delivery.text
-        = delivery.price      
+        = delivery.price
         %br
       %br
-      = submit_tag t(:save_and_continue)
+      = submit_tag t(:save_and_continue), class: 'btn'
 
   %div.span4
     %h4
@@ -19,7 +45,8 @@
       %tr
         %td
           = t(:subtotal)
-          = current_user.current_order.subtotal.round(2)
+          %span#subtotal_value
+            = current_user.current_order.subtotal.round(2)
       %tr
         %td
           = t(:shipping)
@@ -31,4 +58,5 @@
       %tr
         %td
           = t(:order_total)
-          = current_user.current_order.order_total.round(2)
+          %span#order_total_value
+            = current_user.current_order.order_total.round(2)

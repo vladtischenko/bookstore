@@ -16,7 +16,6 @@ class BillAddressesController < ApplicationController
 
   def update
     if current_user.bill_address.update(bill_address_params)
-      # current_user.save
       
       redirect_to edit_user_registration_path,
         notice: t(:updated, scope: [:success], obj: current_user.bill_address.class.to_s)

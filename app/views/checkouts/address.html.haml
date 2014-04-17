@@ -1,4 +1,27 @@
-= render 'head'
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li.current-link= t(:address, scope: :checkout)
+    
+    -if current_user.current_order.delivery
+      %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    -else
+      %li= t(:delivery, scope: :checkout)
+    
+    -if current_user.credit_card
+      %li= link_to t(:payment, scope: :checkout), checkout_payment_path
+    -else
+      %li= t(:payment, scope: :checkout)
+
+    -if current_user.current_order.delivery and current_user.credit_card
+      %li= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    -else
+      %li= t(:confirm, scope: :checkout)
+    
+    %li= t(:complete, scope: :checkout)
+
+%br
 
 .row
   = form_tag checkout_set_addresses_path, id: 'addresses' do
@@ -52,7 +75,7 @@
           = text_field_tag :b_phone, nil, placeholder: t(:phone, scope: :address)
           %br
           %br
-      = submit_tag t(:save_and_continue)
+      = submit_tag t(:save_and_continue), class: 'btn'
 
     %div.span4
       %h4

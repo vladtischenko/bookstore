@@ -73,7 +73,7 @@ en:
   credit_card: 
     name: "CREDIT CARD"
     expiration_date: "Expiration date:"
-    card_code: "Card Code"
+    card_code: "CVV Code"
     card_number: "Card Number"
 
   date:
@@ -117,6 +117,7 @@ en:
     destroyed: "%{obj} was successfully destroyed"
 
   fail:
+    not_found: "%{obj} wasn't found"
     created: "%{obj} wasn't created"
     updated: "%{obj} wasn't updated"
     destroyed: "%{obj} wasn't destroyed"

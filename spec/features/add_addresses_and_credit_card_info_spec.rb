@@ -28,14 +28,14 @@ feature "User add addresses and credit card info" do
 
   scenario "User fill bill address info" do
     visit user_orders_cart_path(@user)
-    click_link 'checkout'
+    click_button 'checkout'
     expect(page).to have_content 'BILLING ADDRESS'
     expect(page).to have_content 'SHIPPING ADDRESS'
   end
 
   context "chechout" do
     scenario "User fill addresses forms and continue" do
-      visit checkout_address_path
+      visit addresses_path
       within '#addresses' do
         fill_in 'b_firstname', with: 'Vasiliy'
         fill_in 'b_lastname', with: 'Pupkin'

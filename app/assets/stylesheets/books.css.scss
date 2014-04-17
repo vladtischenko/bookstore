@@ -4,8 +4,42 @@
 
 @import "compass/css3";
 
+.title-book {
+  font-size: 25px;
+}
+
+.price-book {
+  font-size: 20px;
+}
+
+#btn-qty {
+  width: 800px;
+  margin-left: -180px;
+}
+
+.rating-block {
+  margin-top: 50px;
+  width: 800px;
+}
+
+#submit-book {
+  margin-left: 600px;
+}
+
 #news-content {
   margin-left: 200px;
+}
+
+#review-block {
+  margin-top: 50px;
+}
+
+.bottom-margin {
+  margin-bottom: 5px;
+}
+
+.right-margin {
+  margin-right: 30px;
 }
 
 .adds {
