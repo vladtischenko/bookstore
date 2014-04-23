@@ -7,13 +7,17 @@ gem 'rails', '4.0.2'
 
 # ruby "2.0.0"
 
-# gem 'nokogiri', '~> 1.5.11'
-
-# gem "fog", "~> 1.3.1"
-
 # gem 'html5_validators'
 
 # gem 'jquery-raty-rails'
+
+gem 'aws-s3', :require => 'aws/s3'
+
+# gem 'unf'
+
+# gem "fog"
+
+gem 'nokogiri'
 
 gem 'pg'
 
