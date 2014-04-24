@@ -65,6 +65,7 @@ ActiveAdmin.register Book do
     book = Book.find(params[:id])
 
     if book.update(book_params)
+      # book.remote_picture_url = url if url
       book.picture = url if url
       if book.save
         redirect_to admin_book_path book
@@ -85,6 +86,7 @@ ActiveAdmin.register Book do
       url = AWS::S3::S3Object.url_for(filename, "bookstore-vlad", :authenticated => false)
     end
     book = Book.new(book_params)
+    # book.remote_picture_url = url if url
     book.picture = url if url
 
     if book.save

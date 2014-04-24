@@ -15,17 +15,17 @@ class ApplicationController < ActionController::Base
 
   protected
     def after_sign_in_path_for(resource)
-      if session[:order_items]
-        session[:order_items].each do |order_item_id|
-          current_user.current_order.order_items << OrderItem.find(order_item_id)
-        end
-        if current_user.try(:is_admin?)
-          admin_root_path
-        else
-          user_orders_cart_path(current_user)
-        end
+      if current_user.try(:is_admin?)
+        admin_root_path
       else
-        root_path
+        if session[:order_items]
+          session[:order_items].each do |order_item_id|
+            current_user.current_order.order_items << OrderItem.find(order_item_id)
+          end
+          user_orders_cart_path(current_user)
+        else
+          root_path
+        end
       end
     end
 
