@@ -18,18 +18,18 @@ ActiveAdmin.register Book do
     :in_stock, :picture, :author_id, :category_id
 
   index do
-    books.each do |book|
-      column :id
-      column :title
-      column :short_description
-      column :description
-      column :price
-      column :in_stock
-      column "Picture" do |picture|
-        image_tag book.picture_url, :width => 100
-      end
-      default_actions
+    column :id do |book|
+      link_to book.id, admin_book_path(book)
     end
+    column :title
+    column :short_description
+    column :description
+    column :price
+    column :in_stock
+    column :picture do |book|
+      image_tag book.picture_url, :width => 100
+    end
+    default_actions
   end
 
   show do |b|
