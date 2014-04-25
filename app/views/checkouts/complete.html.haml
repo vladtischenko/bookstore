@@ -90,6 +90,11 @@
 
   %div
     %table
+      -if current_user.current_order.coupon
+        %tr
+          %td{colspan: 3}
+            = t(:discount, scope: :coupon)
+            = current_user.current_order.coupon.price.round(2)
       %tr
         %td{colspan: 3}
           = t(:subtotal)

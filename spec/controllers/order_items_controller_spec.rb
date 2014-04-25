@@ -9,15 +9,33 @@ describe OrderItemsController do
   let(:order_item_params) {{"price"=>order_item.price.to_s, "quantity"=>order_item.quantity.to_s,
                           "book_id"=>order_item.book_id.to_s, "order_id"=>order_item.order_id.to_s}}
   
-  context "Authorized user" do
+  before do
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+  end
+
+  context "foreign" do
     before do
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @user = FactoryGirl.create :user
       sign_in @user
 
-      @ability = Object.new
-      @ability.extend(CanCan::Ability)
-      @controller.stub(:current_ability).and_return(@ability)
+      @fake_user = FactoryGirl.create :user
+    end
+    it "cannot destroy" do
+      @ability.cannot :destroy, OrderItem, order: FactoryGirl.create(:order, user: @fake_user)
+    end
+    it "cannot update" do
+      @ability.cannot :update, OrderItem, order: FactoryGirl.create(:order, user: @fake_user)
+    end
+  end
+
+  context "Authorized user" do
+    before do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      @user = FactoryGirl.create :user
+      sign_in @user
     end
 
     context "POST create" do
@@ -50,11 +68,6 @@ describe OrderItemsController do
   end
 
   context "Not authorized user" do
-    before do
-      @ability = Object.new
-      @ability.extend(CanCan::Ability)
-      @controller.stub(:current_ability).and_return(@ability)
-    end
     context "POST create" do
       it "redirect_to session_cart_path if order_item was created" do
         @ability.can :create, OrderItem

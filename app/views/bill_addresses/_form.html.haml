@@ -17,9 +17,9 @@
       = f.text_field :phone, value: current_user.current_bill_address.phone
   - else
     %p
-      = f.text_field :firstname, placeholder: t(:firstname, scope: :address)
+      = f.text_field :firstname, value: current_user.firstname
     %p
-      = f.text_field :lastname, placeholder: t(:lastname, scope: :address)
+      = f.text_field :lastname, value: current_user.lastname
     %p
       = f.text_field :street, placeholder: t(:street, scope: :address)
     %p

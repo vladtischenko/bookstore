@@ -4,7 +4,7 @@
   %ul.hr
     %li
       %b Checkout
-    %li= link_to t(:address, scope: :checkout), addresses_path
+    %li= link_to t(:address, scope: :checkout), checkout_address_path
     
     -if current_user.current_order.delivery
       %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
@@ -77,6 +77,11 @@
     %h4
       = t(:order_summary)
     %table
+      -if current_user.current_order.coupon
+        %tr
+          %td
+            = t(:discount, scope: :coupon)
+            = current_user.current_order.coupon.price.round(2)
       %tr
         %td
           = t(:order_total)

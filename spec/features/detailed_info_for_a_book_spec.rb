@@ -3,7 +3,6 @@ require 'features/features_spec_helper'
 feature "Detailed info for a book" do
   background do
     @book = FactoryGirl.create :book
-    BooksController.stub(:news).and_return(@book)
   end
 
   feature "User click book title and see detaile info" do

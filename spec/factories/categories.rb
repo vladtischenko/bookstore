@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :category do
-    title "triller"
+    title {Faker::Lorem.characters(10)}
   end
 end

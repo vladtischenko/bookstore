@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :order_item do
-    price 1.5
-    quantity 1
-    total 1.5
+    price {Faker::Commerce.price}
+    quantity {rand(1..10)}
+    total {Faker::Commerce.price}
   end
 end

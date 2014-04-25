@@ -2,11 +2,11 @@
 
 FactoryGirl.define do
   factory :book do
-    title "War and Pease"
+    title {Faker::Commerce.product_name}
     short_description "short description for book"
-    description "full description for War and Pease"
+    description "full description for book"
     picture "/path"
-    in_stock "10"
-    price 99.99
+    in_stock {Faker::Number.decimal(0,10)}
+    price {Faker::Commerce.price}
   end
 end

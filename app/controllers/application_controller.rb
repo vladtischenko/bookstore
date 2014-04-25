@@ -19,10 +19,14 @@ class ApplicationController < ActionController::Base
         admin_root_path
       else
         if session[:order_items]
+          current_user.current_order.empty_cart
           session[:order_items].each do |order_item_id|
             current_user.current_order.order_items << OrderItem.find(order_item_id)
           end
-          user_orders_cart_path(current_user)
+          if session[:order]
+            current_user.current_order.coupon = Order.find(session[:order]).coupon
+          end
+          checkout_address_path
         else
           root_path
         end

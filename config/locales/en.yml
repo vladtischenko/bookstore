@@ -54,7 +54,13 @@ en:
   use_ship_address: "Use Bill Address"
   place_order: "PLACE ORDER"
 
+  coupon:
+    discount: "DISCOUNT"
+    found: "Coupon was found, now you have a discount:  -$%{price}"
+    fill_coupon_field: "Fill coupon code field"
+
   order:
+    completed: "Your order was completed successfully"
     name: "Order"
     table:
       number: "NUMBER"

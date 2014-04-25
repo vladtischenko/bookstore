@@ -1,3 +1,3 @@
 class Country < ActiveRecord::Base
-  validates :name, presence: true, length: { in: 2..25 }
+  validates :name, presence: true, length: { in: 2..100 }
 end

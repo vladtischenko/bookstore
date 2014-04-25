@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :coupon do
-    code "152"
-    price 1.5
+    code {Faker::Number.number(3)}
+    price {Faker::Commerce.price}
   end
 end

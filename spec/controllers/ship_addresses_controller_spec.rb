@@ -4,10 +4,6 @@ describe ShipAddressesController do
   include Devise::TestHelpers
 
   before do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
-    @user = FactoryGirl.create :user
-    sign_in @user
-
     @ability = Object.new
     @ability.extend(CanCan::Ability)
     @controller.stub(:current_ability).and_return(@ability)
@@ -19,35 +15,62 @@ describe ShipAddressesController do
                             "street" => ship_address.street, "phone" => ship_address.phone,
                             "zipcode" => ship_address.zipcode, "country_id" => ship_address.country}}
 
-  context "create action" do
-    it "redirect to edit_user_registration_path with success notice" do
-      @ability.can :create, ShipAddress
-      post :create, id: ship_address.id, ship_address: ship_address_params
-      expect(response).to redirect_to edit_user_registration_path
-      expect(flash[:notice]).to eq "ShipAddress was successfully created"
+
+  context "foreign" do
+    it "cannot update" do
+      user = FactoryGirl.create :user
+      @ability.cannot :update, ShipAddress, user: user
     end
-    it "redirect to edit_user_registration_path with failed notice" do
-      @ability.can :create, ShipAddress
-      ship_address.firstname = nil
-      post :create, id: ship_address.id, ship_address: ship_address_params
-      expect(response).to redirect_to edit_user_registration_path
-      expect(flash[:notice]).to eq "ShipAddress wasn't created"
+  end                          
+
+  context "Not authorized user" do
+    context "create action" do
+      it "can't create ship address" do
+        @ability.cannot :create, ShipAddress
+      end
+      it "can't update ship address" do
+        @ability.cannot :update, ShipAddress
+      end
     end
   end
 
-  context "update action" do
-    it "redirect to edit_user_registration_path with success notice" do
-      @ability.can :update, ShipAddress
-      patch :update, id: ship_address.id, ship_address: ship_address_params
-      expect(response).to redirect_to edit_user_registration_path
-      expect(flash[:notice]).to eq "ShipAddress was successfully updated"
+  context "Authorized user" do
+    before do
+      @request.env["devise.mapping"] = Devise.mappings[:user]
+      @user = FactoryGirl.create :user
+      sign_in @user
     end
-    it "redirect to edit_user_registration_path with failed notice" do
-      @ability.can :update, ShipAddress
-      ship_address.lastname = nil
-      patch :update, id: ship_address.id, ship_address: ship_address_params
-      expect(response).to redirect_to edit_user_registration_path
-      expect(flash[:notice]).to eq "ShipAddress wasn't updated"
+
+    context "create action" do
+      it "redirect to edit_user_registration_path with success notice" do
+        @ability.can :create, ShipAddress
+        post :create, id: ship_address.id, ship_address: ship_address_params
+        expect(response).to redirect_to edit_user_registration_path
+        expect(flash[:notice]).to eq "ShipAddress was successfully created"
+      end
+      it "redirect to edit_user_registration_path with failed notice" do
+        @ability.can :create, ShipAddress
+        ship_address.firstname = nil
+        post :create, id: ship_address.id, ship_address: ship_address_params
+        expect(response).to redirect_to edit_user_registration_path
+        expect(flash[:notice]).to eq "ShipAddress wasn't created"
+      end
+    end
+
+    context "update action" do
+      it "redirect to edit_user_registration_path with success notice" do
+        @ability.can :update, ShipAddress
+        patch :update, id: ship_address.id, ship_address: ship_address_params
+        expect(response).to redirect_to edit_user_registration_path
+        expect(flash[:notice]).to eq "ShipAddress was successfully updated"
+      end
+      it "redirect to edit_user_registration_path with failed notice" do
+        @ability.can :update, ShipAddress
+        ship_address.lastname = nil
+        patch :update, id: ship_address.id, ship_address: ship_address_params
+        expect(response).to redirect_to edit_user_registration_path
+        expect(flash[:notice]).to eq "ShipAddress wasn't updated"
+      end
     end
   end
 end

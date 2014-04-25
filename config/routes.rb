@@ -38,8 +38,10 @@ Bookstore::Application.routes.draw do
   get '/cart', to: 'orders#session_cart', as: :session_cart
   get '/cart/empty', to: 'orders#empty_session_cart', as: :empty_session_cart
 
-  post 'checkouts/address', to: 'checkouts#address', as: :checkout_address
-  get 'checkouts/addresses', to: 'checkouts#addresses', as: :addresses
+  # post 'checkouts/address', to: 'checkouts#address', as: :checkout_address
+  # get 'checkouts/addresses', to: 'checkouts#addresses', as: :addresses
+  get 'checkouts/address', to: 'checkouts#address', as: :checkout_address
+  post 'checkouts/coupon', to: 'checkouts#set_coupon', as: :checkout_coupon
   get 'checkouts/delivery', to: 'checkouts#delivery', as: :checkout_delivery
   get '/checkouts/payment', to: 'checkouts#payment', as: :checkout_payment
   get '/checkouts/confirm', to: 'checkouts#confirm', as: :checkout_confirm

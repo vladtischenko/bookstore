@@ -2,9 +2,9 @@
 
 FactoryGirl.define do
   factory :order do
-    order_total 0.5
-    subtotal 0.0
-    number "123"
-    state "in_progress"
+    order_total {Faker::Commerce.price}
+    subtotal {Faker::Commerce.price}
+    number {Faker::Number.number(3)}
+    state {Faker::Lorem.word}
   end
 end

@@ -2,7 +2,7 @@
   %ul.hr
     %li
       %b Checkout
-    %li= link_to t(:address, scope: :checkout), addresses_path
+    %li= link_to t(:address, scope: :checkout), checkout_address_path
     
     -if current_user.current_order.delivery
       %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
@@ -30,7 +30,7 @@
   %div.span3
     %b
       = t(:shipping_address) 
-    = link_to t(:edit), addresses_path
+    = link_to t(:edit), checkout_address_path
     %br
     = "#{current_user.ship_address.firstname} #{current_user.ship_address.lastname}" 
     %br
@@ -47,7 +47,7 @@
   %div.span3
     %b
       = t(:billing_address)
-    = link_to t(:edit), addresses_path
+    = link_to t(:edit), checkout_address_path
     %br    
     = "#{current_user.bill_address.firstname} #{current_user.bill_address.lastname}"
     %br
@@ -120,21 +120,23 @@
 
 %div
   %table
+    -if current_user.current_order.coupon
+      %tr
+        %td
+          = t(:discount, scope: :coupon)
+          = current_user.current_order.coupon.price.round(2)
     %tr
       %td{colspan: 3}
         = t(:subtotal)
-        %b
-          = current_user.current_order.subtotal.round(2)
+        %b= current_user.current_order.subtotal.round(2)
     %tr
       %td{colspan: 3}
         = t(:shipping)
-        %b
-          = current_user.current_order.delivery.price.round(2)
+        %b= current_user.current_order.delivery.price.round(2)
     %tr
       %td{colspan: 3}
         = t(:order_total)
-        %b
-          = current_user.current_order.order_total.round(2)
+        %b= current_user.current_order.order_total.round(2)
 %br
 %br
 

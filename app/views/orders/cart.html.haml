@@ -46,10 +46,10 @@
             &nbsp;
           %td
             = t(:subtotal)
-            %b= @order.subtotal.round(2)
+            %b= @order.order_total.round(2)
 
   .row
-    = form_tag checkout_address_path do
+    = form_tag checkout_coupon_path do
       .span2
         -if current_user
           = link_to empty_cart_path, data: { confirm: t(:are_you_sure?) } do
@@ -60,7 +60,10 @@
       .span6
         = link_to books_path do
           %button.btn= t(:continue_shopping)
-      .span3
+      .span2
         = text_field_tag :code, nil, placeholder: 'Coupon code'
       .span1
-        = submit_tag t(:name, scope: :checkout), class: 'btn'
+        = submit_tag t(:update), class: 'btn'
+    .span1
+      = link_to checkout_address_path do
+        %button.btn= t(:name, scope: :checkout) 

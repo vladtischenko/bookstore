@@ -20,7 +20,7 @@ feature "User can add book to the shopping cart and make checkout" do
       visit root_path
       click_button 'add to cart'
       visit user_orders_cart_path(@user)
-      click_button 'checkout'
+      click_link 'checkout'
       expect(page).to have_content 'Checkout'
     end
   end
@@ -35,7 +35,7 @@ feature "User can add book to the shopping cart and make checkout" do
       visit root_path
       click_button 'add to cart'
       visit session_cart_path
-      click_button 'checkout'
+      click_link 'checkout'
       expect(page).to have_content 'You need to sign in or sign up before continuing'
     end
   end

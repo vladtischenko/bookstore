@@ -4,6 +4,7 @@ class BooksController < ApplicationController
 
   def index
     # @books = Kaminari.paginate_array(Book.all.shuffle).page(params[:page]).per(9)
+    flash[:notice] = nil
     @books = Book.all.page(params[:page]).per(9)
     @categories = Category.all
   end

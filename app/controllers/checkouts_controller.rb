@@ -1,21 +1,30 @@
 class CheckoutsController < ApplicationController
+
+  skip_before_action :authenticate_user!, only: :set_coupon
+
   def complete; end
   
-  def addresses
-    render 'address'
-  end
-
-  def address
-    unless params[:code].empty?
+  def address; end
+  
+  def set_coupon
+    if params[:code].empty?
+      redirect_to :back, notice: t(:fill_coupon_field, scope: :coupon)
+    else
       coupon = Coupon.find_by_code params[:code]
       if coupon
-        current_user.current_order.coupon = coupon
+        if current_user
+          current_user.current_order.coupon = coupon
+          redirect_to user_orders_cart_path(current_user), notice: t(:found, scope: :coupon, price: coupon.price)
+        elsif session[:order]
+          @order = Order.find(session[:order])
+          @order.coupon = coupon
+          redirect_to session_cart_path, notice: t(:found, scope: :coupon, price: coupon.price)
+        end
       else
         redirect_to :back, notice: t(:not_found, scope: :fail, obj: Coupon.to_s)
-      end      
+      end
     end
   end
-  
   
   def delivery
     @deliveries = Delivery.by_price
@@ -40,6 +49,7 @@ class CheckoutsController < ApplicationController
   def set_complete
     @order = current_user.current_order
     current_user.current_order.set_state
+    flash[:notice] = t(:completed, scope: :order)
     render 'complete'
   end
 

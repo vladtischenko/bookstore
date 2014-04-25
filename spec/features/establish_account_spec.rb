@@ -4,7 +4,7 @@ feature "User establish an account for remember addresses" do
   background do
     @user = FactoryGirl.create :user
     login_as @user, scope: :user
-    Country.stub(:all).and_return(FactoryGirl.create_list :country, 5)
+    @countries = FactoryGirl.create_list :country, 5
     @country = Country.all.first
   end
 

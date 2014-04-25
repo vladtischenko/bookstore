@@ -42,7 +42,7 @@
           = text_field_tag :b_city, current_user.bill_address.city
           %br
         %p
-          = collection_select :b_country_id, :country_id, Country.all, :id, :name
+          = collection_select :b_country_id, :country_id, Country.all, :id, :name, :selected => current_user.bill_address.country.id
           %br
         %p
           = text_field_tag :b_zipcode, current_user.bill_address.zipcode
@@ -54,10 +54,10 @@
 
       - else
         %p
-          = text_field_tag :b_firstname, nil,  placeholder: t(:firstname, scope: :address)
+          = text_field_tag :b_firstname, current_user.firstname
           %br
         %p
-          = text_field_tag :b_lastname, nil, placeholder: t(:lastname, scope: :address)
+          = text_field_tag :b_lastname, current_user.lastname
           %br
         %p
           = text_field_tag :b_street, nil, placeholder: t(:street, scope: :address)
@@ -97,7 +97,7 @@
             = text_field_tag :s_city, current_user.ship_address.city
             %br
           %p
-            = collection_select :s_country_id, :country_id, Country.all, :id, :name
+            = collection_select :s_country_id, :country_id, Country.all, :id, :name, :selected => current_user.ship_address.country.id
             %br
           %p
             = text_field_tag :s_zipcode, current_user.ship_address.zipcode
@@ -135,6 +135,11 @@
     %h4
       = t(:order_summary)
     %table
+      -if current_user.current_order.coupon
+        %tr
+          %td
+            = t(:discount, scope: :coupon)
+            = current_user.current_order.coupon.price.round(2)
       %tr
         %td
           = t(:item_total)

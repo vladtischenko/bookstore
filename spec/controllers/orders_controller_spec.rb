@@ -7,15 +7,18 @@ describe OrdersController do
   let(:order_params) {{"order_total"=>order.order_total, "shipping"=>order.shipping,
                       "subtotal"=>order.subtotal, "number"=>order.number, "state"=>order.state}}
 
+
+  before do
+    @ability = Object.new
+    @ability.extend(CanCan::Ability)
+    @controller.stub(:current_ability).and_return(@ability)
+  end
+
   context "Authorized user" do
     before do
       @request.env["devise.mapping"] = Devise.mappings[:user]
       @user = FactoryGirl.create :user
       sign_in @user
-
-      @ability = Object.new
-      @ability.extend(CanCan::Ability)
-      @controller.stub(:current_ability).and_return(@ability)
     end
 
     context "GET show" do
@@ -59,12 +62,19 @@ describe OrdersController do
     end
   end
 
-  context "Not authorized user" do
+  context "foreign" do
     before do
-      @ability = Object.new
-      @ability.extend(CanCan::Ability)
-      @controller.stub(:current_ability).and_return(@ability)
+      @fake_user = FactoryGirl.create :user
     end
+    it "cannot empty" do
+      @ability.cannot :empty, Order, user: @fake_user
+    end
+    it "cannot cart" do
+      @ability.cannot :cart, Order, user: @fake_user
+    end
+  end
+
+  context "Not authorized user" do
     it "GET empty_session_cart" do
       @ability.can :empty_session_cart, Order
       book = FactoryGirl.create :book
@@ -78,6 +88,14 @@ describe OrdersController do
       @ability.can :session_cart, Order
       get :session_cart
       expect(response).to render_template 'cart'
+    end
+    context "cannot" do
+      it "GET empty" do
+        @ability.cannot :empty, Order
+      end
+      it "GET cart" do
+        @ability.cannot :cart, Order
+      end
     end
   end
 end
