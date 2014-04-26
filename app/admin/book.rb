@@ -51,67 +51,67 @@ ActiveAdmin.register Book do
     active_admin_comments
   end
 
-  member_action :update, :method => :patch do
-    if params[:book][:picture]
-      fileUp = params[:book][:picture]
-      # orig_filename = fileUp['datafile'].original_filename
-      orig_filename = fileUp.original_filename
-      filename = sanitize_filename(orig_filename)
-      # AWS::S3::S3Object.store(filename, fileUp['datafile'].read, "bookstore-vlad", :access => :public_read)
-      AWS::S3::S3Object.store(filename, fileUp.read, "bookstore-vlad", :access => :public_read)
-      url = AWS::S3::S3Object.url_for(filename, "bookstore-vlad", :authenticated => false)
-    end
+  # member_action :update, :method => :patch do
+  #   if params[:book][:picture]
+  #     fileUp = params[:book][:picture]
+  #     # orig_filename = fileUp['datafile'].original_filename
+  #     orig_filename = fileUp.original_filename
+  #     filename = sanitize_filename(orig_filename)
+  #     # AWS::S3::S3Object.store(filename, fileUp['datafile'].read, "bookstore-vlad", :access => :public_read)
+  #     AWS::S3::S3Object.store(filename, fileUp.read, "bookstore-vlad", :access => :public_read)
+  #     url = AWS::S3::S3Object.url_for(filename, "bookstore-vlad", :authenticated => false)
+  #   end
 
-    book = Book.find(params[:id])
-
-    if book.update(book_params)
-      # book.remote_picture_url = url if url
-      book.picture = url if url
-      if book.save
-        redirect_to admin_book_path book
-      else
-        redirect_to admin_book_path book, :notice => 'Error'
-      end
-    else
-      redirect_to admin_book_path book, :notice => 'Error'
-    end
-  end
-
-  member_action :create, :method => :post do
-    if params[:book][:picture]
-      fileUp = params[:book][:picture]
-      orig_filename = fileUp.original_filename
-      filename = sanitize_filename(orig_filename)
-      AWS::S3::S3Object.store(filename, fileUp.read, "bookstore-vlad", :access => :public_read)
-      url = AWS::S3::S3Object.url_for(filename, "bookstore-vlad", :authenticated => false)
-    end
-    book = Book.new(book_params)
-    # book.remote_picture1_url = url if url
-    book.picture = url if url
-
-    if book.save
-      redirect_to admin_book_path book
-    else
-      redirect_to admin_book_path book, :notice => 'Error'
-    end 
-  end
-
-  # member_action :destroy, :method => :delete do
   #   book = Book.find(params[:id])
-  #   AWS::S3::S3Object.find(book.picture.filename, "bookstore-vlad").delete
-  #   book.picture.destroy
-  #   book.destroy
-  #   redirect_to admin_book_path
+
+  #   if book.update(book_params)
+  #     # book.remote_picture_url = url if url
+  #     book.picture = url if url
+  #     if book.save
+  #       redirect_to admin_book_path book
+  #     else
+  #       redirect_to admin_book_path book, :notice => 'Error'
+  #     end
+  #   else
+  #     redirect_to admin_book_path book, :notice => 'Error'
+  #   end
   # end
 
-  member_action :sanitize_filename do |file_name|
-    just_filename = File.basename(file_name)
-    just_filename.sub(/[^\w\.\-]/,'_')
-  end
+  # member_action :create, :method => :post do
+  #   if params[:book][:picture]
+  #     fileUp = params[:book][:picture]
+  #     orig_filename = fileUp.original_filename
+  #     filename = sanitize_filename(orig_filename)
+  #     AWS::S3::S3Object.store(filename, fileUp.read, "bookstore-vlad", :access => :public_read)
+  #     url = AWS::S3::S3Object.url_for(filename, "bookstore-vlad", :authenticated => false)
+  #   end
+  #   book = Book.new(book_params)
+  #   # book.remote_picture1_url = url if url
+  #   book.picture = url if url
 
-  member_action :book_params do
-    params.require(:book).permit(:title, :short_description, :description,
-        :picture, :price, :in_stock, :category_id, :author_id)
-  end
+  #   if book.save
+  #     redirect_to admin_book_path book
+  #   else
+  #     redirect_to admin_book_path book, :notice => 'Error'
+  #   end 
+  # end
+
+  # # member_action :destroy, :method => :delete do
+  # #   book = Book.find(params[:id])
+  # #   AWS::S3::S3Object.find(book.picture.filename, "bookstore-vlad").delete
+  # #   book.picture.destroy
+  # #   book.destroy
+  # #   redirect_to admin_book_path
+  # # end
+
+  # member_action :sanitize_filename do |file_name|
+  #   just_filename = File.basename(file_name)
+  #   just_filename.sub(/[^\w\.\-]/,'_')
+  # end
+
+  # member_action :book_params do
+  #   params.require(:book).permit(:title, :short_description, :description,
+  #       :picture, :price, :in_stock, :category_id, :author_id)
+  # end
 
 end

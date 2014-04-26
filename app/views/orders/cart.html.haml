@@ -57,10 +57,10 @@
         -else
           = link_to empty_session_cart_path, data: { confirm: t(:are_you_sure?) } do
             %button.btn= t(:empty_cart)
-      .span6
+      .span5
         = link_to books_path do
           %button.btn= t(:continue_shopping)
-      .span2
+      .span3
         = text_field_tag :code, nil, placeholder: 'Coupon code'
       .span1
         = submit_tag t(:update), class: 'btn'

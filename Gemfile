@@ -11,7 +11,9 @@ gem 'rails', '4.0.2'
 
 # gem 'jquery-raty-rails'
 
-gem 'aws-s3', :require => 'aws/s3'
+# gem 'aws-s3', :require => 'aws/s3'
+
+gem 'carrierwave-aws'
 
 # gem 'unf'
 
