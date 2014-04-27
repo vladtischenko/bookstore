@@ -17,7 +17,6 @@
           .span2
             = link_to book_path(book), id: "#{book.id}_img" do
               = image_tag(book.picture_url, :width => 700) if book.picture.present?
-              -#= image_tag(book.remote_picture_url, :width => 700) if book.picture.present?
           .span4
             = book.description
         

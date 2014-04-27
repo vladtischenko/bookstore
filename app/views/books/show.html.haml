@@ -34,9 +34,9 @@
       %div.bottom-margin
         %span.right-margin
           - rating.rate.times do
-            = image_tag "yellow_star.gif", :width => "15"
+            = image_tag 'https://bookstore-vlad.s3.amazonaws.com/uploads/yellow_star.gif', :width => 15
           - (5 - rating.rate).times do
-            = image_tag "grey_star.jpg", :width => "11"
+            = image_tag 'https://bookstore-vlad.s3.amazonaws.com/uploads/grey_star.jpg', :width => 11
         %span.right-margin
           = rating.title
         %span
