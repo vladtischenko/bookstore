@@ -54,7 +54,13 @@ en:
   use_ship_address: "Use Bill Address"
   place_order: "PLACE ORDER"
 
+  coupon:
+    discount: "DISCOUNT"
+    found: "Coupon was found, now you have a discount:  -$%{price}"
+    fill_coupon_field: "Fill coupon code field"
+
   order:
+    completed: "Your order was completed successfully"
     name: "Order"
     table:
       number: "NUMBER"
@@ -73,7 +79,7 @@ en:
   credit_card: 
     name: "CREDIT CARD"
     expiration_date: "Expiration date:"
-    card_code: "Card Code"
+    card_code: "CVV Code"
     card_number: "Card Number"
 
   date:
@@ -117,6 +123,7 @@ en:
     destroyed: "%{obj} was successfully destroyed"
 
   fail:
+    not_found: "%{obj} wasn't found"
     created: "%{obj} wasn't created"
     updated: "%{obj} wasn't updated"
     destroyed: "%{obj} wasn't destroyed"

@@ -7,6 +7,20 @@ gem 'rails', '4.0.2'
 
 # ruby "2.0.0"
 
+# gem 'html5_validators'
+
+# gem 'jquery-raty-rails'
+
+# gem 'aws-s3', :require => 'aws/s3'
+
+gem 'carrierwave-aws'
+
+# gem 'unf'
+
+# gem "fog"
+
+gem 'nokogiri'
+
 gem 'pg'
 
 gem 'kaminari'

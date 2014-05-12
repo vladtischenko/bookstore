@@ -5,7 +5,7 @@ Bookstore::Application.routes.draw do
   devise_for :users, :controllers => { #:registrations => "registrations", 
                                       :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_scope :user do
-    # get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session 
+    # get 'sign_out', :to => 'devise/sessions#destroy', :as => :destroy_user_session
   end
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -23,6 +23,7 @@ Bookstore::Application.routes.draw do
   resources :orders
   resources :order_items
   resources :credit_cards
+  resources :coupons
 
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
@@ -31,10 +32,16 @@ Bookstore::Application.routes.draw do
   get '/home', to: 'books#news'
   get '/users/:user_id/orders', to: 'orders#index', as: :user_orders
   get '/users/:user_id/orders/cart', to: 'orders#cart', as: :user_orders_cart
-  get '/categories/:category_id/books', to: 'books#get_by_category', as: :category_books
   get '/users/:user_id/orders/cart/empty', to: 'orders#empty', as: :empty_cart
+  get '/categories/:category_id/books', to: 'books#get_by_category', as: :category_books
 
+  get '/cart', to: 'orders#session_cart', as: :session_cart
+  get '/cart/empty', to: 'orders#empty_session_cart', as: :empty_session_cart
+
+  # post 'checkouts/address', to: 'checkouts#address', as: :checkout_address
+  # get 'checkouts/addresses', to: 'checkouts#addresses', as: :addresses
   get 'checkouts/address', to: 'checkouts#address', as: :checkout_address
+  post 'checkouts/coupon', to: 'checkouts#set_coupon', as: :checkout_coupon
   get 'checkouts/delivery', to: 'checkouts#delivery', as: :checkout_delivery
   get '/checkouts/payment', to: 'checkouts#payment', as: :checkout_payment
   get '/checkouts/confirm', to: 'checkouts#confirm', as: :checkout_confirm

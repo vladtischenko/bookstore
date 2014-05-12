@@ -5,15 +5,14 @@ feature "User add addresses and credit card info" do
     @user = FactoryGirl.create :user
     login_as @user, scope: :user
 
-    Delivery.stub(:by_price).and_return(FactoryGirl.create_list :delivery, 5)
+    @deliveries = FactoryGirl.create_list :delivery, 5
+    @book = FactoryGirl.create :book
     @delivery = Delivery.by_price.first
     @order = FactoryGirl.create :order, user_id: @user.id, state: 'in_progress', delivery: @delivery
-    @book = FactoryGirl.create :book
     @order_items = FactoryGirl.create_list :order_item, 2, book_id: @book.id, order_id: @order.id
     @order.order_items = @order_items
-    @user.stub(:current_order).and_return(@order)
 
-    Country.stub(:all).and_return(FactoryGirl.create_list :country, 5)
+    @countries = FactoryGirl.create_list :country, 5
     @country = Country.all.first
   end
 
@@ -24,13 +23,6 @@ feature "User add addresses and credit card info" do
       click_button 'SAVE AND CONTINUE'
     end
     expect(page).to have_content 'CREDIT CARD'
-  end
-
-  scenario "User fill bill address info" do
-    visit user_orders_cart_path(@user)
-    click_link 'checkout'
-    expect(page).to have_content 'BILLING ADDRESS'
-    expect(page).to have_content 'SHIPPING ADDRESS'
   end
 
   context "chechout" do
@@ -57,7 +49,7 @@ feature "User add addresses and credit card info" do
         fill_in 's_phone', with: '+380669632587'
         click_button 'SAVE AND CONTINUE'
       end
-      expect(page).to have_content 'UPS 10.25'
+      expect(page).to have_content @delivery
     end
 
     scenario "User set credit card info and continue" do

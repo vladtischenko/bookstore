@@ -2,12 +2,11 @@
 
 FactoryGirl.define do
   factory :ship_address do
-    city "New York"
-    street "Allen st.17"
-    firstname "Jonh"
-    lastname "Lewis"
-    zipcode "558555-2516"
-    phone "+66987206801"
-    country nil
+    city {Faker::Address.city}
+    street {Faker::Address.street_address}
+    firstname {Faker::Name.first_name}
+    lastname {Faker::Name.last_name}
+    zipcode {Faker::Address.zip_code}
+    phone {Faker::PhoneNumber.phone_number}
   end
 end

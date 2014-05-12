@@ -13,7 +13,7 @@ describe CreditCard do
   it { expect(credit_card).to validate_numericality_of :card_number }
   it { expect(credit_card).to validate_numericality_of :user_id }
   it { expect(credit_card).to validate_numericality_of :code }
-  it { expect(credit_card.code.size).to eq 4 }
+  it { expect(credit_card.code.size).to eq 3 }
   it { expect(credit_card.card_number.length).to eq 16 }
 
   context "callbacks" do

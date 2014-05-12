@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :delivery do
-    text "UPS"
-    price 10.25
+    text {Faker::Lorem.word}
+    price {Faker::Commerce.price}
   end
 end

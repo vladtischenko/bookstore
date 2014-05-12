@@ -14,6 +14,25 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+    def after_sign_in_path_for(resource)
+      if current_user.try(:is_admin?)
+        admin_root_path
+      else
+        if session[:order_items]
+          current_user.current_order.empty_cart
+          session[:order_items].each do |order_item_id|
+            current_user.current_order.order_items << OrderItem.find(order_item_id)
+          end
+          if session[:order]
+            current_user.current_order.coupon = Order.find(session[:order]).coupon
+          end
+          checkout_address_path
+        else
+          root_path
+        end
+      end
+    end
+
     def configure_permitted_parameters
       # devise_parameter_sanitizer.for(:sign_up) do |u|
       #   u.permit(:email, :firstname, :lastname, :password, :password_confirmation)
@@ -27,8 +46,14 @@ class ApplicationController < ActionController::Base
         }
       elsif params[:action] == 'create'
         devise_parameter_sanitizer.for(:sign_up) { 
-          |u| u.permit(registration_params) 
+          |u| u.permit(registration_params)
         }
       end
+    end
+
+  private
+    def session_current_user
+      @_current_user ||= session[:current_user_id]# &&
+        #User.find_by(id: session[:current_user_id])
     end
 end

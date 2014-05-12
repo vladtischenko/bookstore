@@ -7,7 +7,6 @@ feature "User put book into shopping cart" do
     login_as @user, scope: :user
 
     @book = FactoryGirl.create :book
-    BooksController.stub(:news).and_return(@book)
   end
 
   scenario "User click 'add to cart' button from home page and book add to his cart" do

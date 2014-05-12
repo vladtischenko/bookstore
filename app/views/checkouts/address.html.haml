@@ -1,4 +1,27 @@
-= render 'head'
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li.current-link= t(:address, scope: :checkout)
+    
+    -if current_user.current_order.delivery
+      %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    -else
+      %li= t(:delivery, scope: :checkout)
+    
+    -if current_user.credit_card
+      %li= link_to t(:payment, scope: :checkout), checkout_payment_path
+    -else
+      %li= t(:payment, scope: :checkout)
+
+    -if current_user.current_order.delivery and current_user.credit_card
+      %li= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    -else
+      %li= t(:confirm, scope: :checkout)
+    
+    %li= t(:complete, scope: :checkout)
+
+%br
 
 .row
   = form_tag checkout_set_addresses_path, id: 'addresses' do
@@ -19,7 +42,7 @@
           = text_field_tag :b_city, current_user.bill_address.city
           %br
         %p
-          = collection_select :b_country_id, :country_id, Country.all, :id, :name
+          = collection_select :b_country_id, :country_id, Country.all, :id, :name, :selected => current_user.bill_address.country.id
           %br
         %p
           = text_field_tag :b_zipcode, current_user.bill_address.zipcode
@@ -31,10 +54,10 @@
 
       - else
         %p
-          = text_field_tag :b_firstname, nil,  placeholder: t(:firstname, scope: :address)
+          = text_field_tag :b_firstname, current_user.firstname
           %br
         %p
-          = text_field_tag :b_lastname, nil, placeholder: t(:lastname, scope: :address)
+          = text_field_tag :b_lastname, current_user.lastname
           %br
         %p
           = text_field_tag :b_street, nil, placeholder: t(:street, scope: :address)
@@ -52,7 +75,7 @@
           = text_field_tag :b_phone, nil, placeholder: t(:phone, scope: :address)
           %br
           %br
-      = submit_tag t(:save_and_continue)
+      = submit_tag t(:save_and_continue), class: 'btn'
 
     %div.span4
       %h4
@@ -74,7 +97,7 @@
             = text_field_tag :s_city, current_user.ship_address.city
             %br
           %p
-            = collection_select :s_country_id, :country_id, Country.all, :id, :name
+            = collection_select :s_country_id, :country_id, Country.all, :id, :name, :selected => current_user.ship_address.country.id
             %br
           %p
             = text_field_tag :s_zipcode, current_user.ship_address.zipcode
@@ -112,6 +135,11 @@
     %h4
       = t(:order_summary)
     %table
+      -if current_user.current_order.coupon
+        %tr
+          %td
+            = t(:discount, scope: :coupon)
+            = current_user.current_order.coupon.price.round(2)
       %tr
         %td
           = t(:item_total)

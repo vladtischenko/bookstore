@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :rating do
-    title "Not bad"
-    text "I like it"
-    rate 1
+    title {Faker::Lorem.sentence}
+    text {Faker::Lorem.sentence}
+    rate {rand(1..5)}
   end
 end

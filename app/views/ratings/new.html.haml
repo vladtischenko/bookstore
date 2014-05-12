@@ -14,13 +14,13 @@
             = msg
 
   = f.label :rating
-  = f.number_field :rate, min: 1, max: 5
+  -#= render 'rate'
+  = f.select :rate, [1,2,3,4,5]
   %br
   = f.label :title
   = f.text_field :title
   %br
   = f.label :text
-  %br
   = f.text_area :text
   %br
   = f.hidden_field :allow, value: false

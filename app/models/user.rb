@@ -8,7 +8,10 @@ class User < ActiveRecord::Base
 
   validates :firstname, :lastname, :email, presence: true
 
+  validates :email, uniqueness: true
+
   has_many :orders, dependent: :destroy
+  # has_many :coupons, dependent: :destroy
   has_one :bill_address, dependent: :destroy
   has_one :ship_address, dependent: :destroy
   has_one :credit_card, dependent: :destroy
@@ -50,7 +53,7 @@ class User < ActiveRecord::Base
       order.subtotal = 0
       order.order_total = 0
     end
-    order.set_total
+    order.set_total 
     order
   end
 

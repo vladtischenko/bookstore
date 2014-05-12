@@ -9,6 +9,7 @@ describe User do
   it { expect(user).to validate_presence_of :firstname }
   it { expect(user).to validate_presence_of :lastname }
   it { expect(user).to validate_presence_of :email }
+  it { expect(user).to validate_uniqueness_of :email }
 
   context "relations" do
     it { expect(user).to have_one :credit_card }

@@ -20,6 +20,8 @@ class Ability
     
     can :empty, Order, user_id: user.id
     can :cart, Order, user_id: user.id
+    can :session_cart, Order
+    can :empty_session_cart, Order
 
     # alias_action :create, :update, :destroy, to: :adm_actions
 

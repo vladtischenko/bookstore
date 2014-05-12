@@ -1,52 +1,53 @@
-%p#notice= notice
+-#%p#notice= notice
+
+%h3= @book.title
 
 .row
-  %div.span8
-    %div
-      = @book.title
-    %div.floating-left
-      = image_tag(@book.picture_url, :width => 100) if @book.picture.present?
-    %table
-      %tr
-        %td
-          $
-          = @book.price
-        %td
+  .span4
+    = image_tag(@book.picture_url, :width => 200) if @book.picture.present?
+  .span8
+    %div#btn-qty
+      %div
+        %div.floating-left
+          %h3
+            $
+            = @book.price
+        %div#submit-book
           = form_for oi = OrderItem.new do |f|
             = f.number_field :quantity, min: 1, max: 10, value: 1, class: 'adds'
             = f.hidden_field :book_id, value: @book.id
             -if current_user
               = f.hidden_field :order_id, value: current_user.current_order.id
             = f.hidden_field :price, value: @book.price
-            = f.submit t(:add_to_cart)
-      %tr
-        %td
-          %div
-            = @book.description
+            = f.submit t(:add_to_cart), class: "btn"  
+      %div
+        = @book.description
 
-  %div.span4
-    %div.floating-left
-      = t(:reviews, scope: [:book])
-    %div 
-      = link_to t(:add_review_for_book, scope: :review, title: @book.title), new_book_rating_path(@book)
+%div#review-block
+  %b= t(:reviews, scope: [:book])
+  = link_to t(:add_review_for_book, scope: :review, title: @book.title), new_book_rating_path(@book)
+  %br
 
-    %br
-
-    - @book.ratings.each do |rating|
-      - if rating.allow
-        %table
-          %tr
-            %td= rating.rate
-            %td= rating.title
-            %td= rating.created_at.asctime
-        %div
-          by
-          -if rating.user
-            = rating.user
-          -else
-            = t(:anonym)
-        %div
-          = rating.text
-      - else 
-        = t(:not_verify_by_admin_yet, scope: [:review])
-      %br
+- @book.ratings.each do |rating|
+  %div.rating-block
+    - if rating.allow
+      %div.bottom-margin
+        %span.right-margin
+          - rating.rate.times do
+            = image_tag 'https://bookstore-vlad.s3.amazonaws.com/uploads/yellow_star.gif', :width => 15
+          - (5 - rating.rate).times do
+            = image_tag 'https://bookstore-vlad.s3.amazonaws.com/uploads/grey_star.jpg', :width => 11
+        %span.right-margin
+          = rating.title
+        %span
+          = rating.created_at.strftime("%B %d %Y")
+      %div.bottom-margin
+        by
+        -if rating.user
+          = rating.user
+        -else
+          = t(:anonym)
+      %div
+        = rating.text
+    -else
+      = t(:not_verify_by_admin_yet, scope: [:review])

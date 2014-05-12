@@ -1,4 +1,27 @@
-= render 'head'
+%div
+  %ul.hr
+    %li
+      %b Checkout
+    %li= link_to t(:address, scope: :checkout), checkout_address_path
+    
+    -if current_user.current_order.delivery
+      %li= link_to t(:delivery, scope: :checkout), checkout_delivery_path
+    -else
+      %li= t(:delivery, scope: :checkout)
+    
+    -if current_user.credit_card
+      %li= link_to t(:payment, scope: :checkout), checkout_payment_path
+    -else
+      %li= t(:payment, scope: :checkout)
+
+    -if current_user.current_order.delivery and current_user.credit_card
+      %li.current-link= link_to t(:confirm, scope: :checkout), checkout_confirm_path
+    -else
+      %li.current-link= t(:confirm, scope: :checkout)
+    
+    %li= t(:complete, scope: :checkout)
+
+%br
 
 %h4
   = t(:confirm)
@@ -97,24 +120,26 @@
 
 %div
   %table
+    -if current_user.current_order.coupon
+      %tr
+        %td
+          = t(:discount, scope: :coupon)
+          = current_user.current_order.coupon.price.round(2)
     %tr
       %td{colspan: 3}
         = t(:subtotal)
-        %b
-          = current_user.current_order.subtotal.round(2)
+        %b= current_user.current_order.subtotal.round(2)
     %tr
       %td{colspan: 3}
         = t(:shipping)
-        %b
-          = current_user.current_order.delivery.price.round(2)
+        %b= current_user.current_order.delivery.price.round(2)
     %tr
       %td{colspan: 3}
         = t(:order_total)
-        %b
-          = current_user.current_order.order_total.round(2)
+        %b= current_user.current_order.order_total.round(2)
 %br
 %br
 
 = link_to checkout_set_complete_path do 
-  %button
+  %button.btn
     = t(:place_order)

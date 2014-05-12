@@ -23,14 +23,16 @@ describe Delivery do
     end
     
     it "return deliveries ordered by price" do
-      expect(Delivery.by_price.first.price).to eq 10.25
-      expect(Delivery.by_price.last.price).to eq(10.25 + 20)
+      prices = []
+      @deliveries.each {|delivery| prices << delivery.price}
+      expect(Delivery.by_price.first.price).to eq prices.sort.first.round(2)
+      expect(Delivery.by_price.last.price).to eq prices.sort.last.round(2)
     end
   end
 
   context "methods" do
     it "return text and price of delivery" do
-      expect(delivery.to_s).to eq "UPS 10.25"
+      expect(delivery.to_s).to eq "#{delivery.text} #{delivery.price}"
     end
   end
 end
