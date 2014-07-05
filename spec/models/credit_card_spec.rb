@@ -27,7 +27,7 @@ describe CreditCard do
   context "methods" do
     it "returns true if time now less than expiration_date" do
       credit_card.expiration_month = "May"
-      credit_card.expiration_year = 2014
+      credit_card.expiration_year = Time.now.year + 1
       expect(credit_card.check_date).to eq true
     end
     it "returns faslse if expiration_date less than time now" do
