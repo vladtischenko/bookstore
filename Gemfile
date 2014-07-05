@@ -13,6 +13,8 @@ gem 'rails', '4.0.2'
 
 # gem 'aws-s3', :require => 'aws/s3'
 
+gem "figaro"
+
 gem 'carrierwave-aws'
 
 # gem 'unf'
